@@ -1,62 +1,94 @@
-const urlBase = 'http://COP4331-5.com/LAMPAPI';
+// urlBase is 
+const urlBase = 'http://cop4331-color-project.com/LAMPAPI'; // waiting on domain name from Ryan
 const extension = 'php';
 
+// Sets the starting data of these values across all functions
 let userId = 0;
 let firstName = "";
 let lastName = "";
 
 function doLogin()
 {
+	// Reassigns variabless for this function scrope
 	userId = 0;
 	firstName = "";
 	lastName = "";
 	
+	// Grabs the values for username / password
 	let login = document.getElementById("loginName").value;
 	let password = document.getElementById("loginPassword").value;
 //	var hash = md5( password );
 	
+	// Resets the value in loginResult do display ""
+	// Clears any prev errors messages before starting login
 	document.getElementById("loginResult").innerHTML = "";
 
-	let tmp = {login:login,password:password};
-//	var tmp = {login:login,password:hash};
-	let jsonPayload = JSON.stringify( tmp );
-	
+	// Stores login / password as object key-value pairs for parsing
+	let tmp = {login: login, password: password};
+
+	// This was already commented out
+//	var tmp = {login:login,password:hash}; 
+
+	// Parses tmp into a JSON 
+	let jsonPayload = JSON.stringify( tmp );0
+	// ----
+	// Here we grab urlBase + php file + file extension
 	let url = urlBase + '/Login.' + extension;
 
+	// Creates a new request manager (older version of Fetch)
 	let xhr = new XMLHttpRequest();
+	
+	// Sets the parameters for the request. (Method, URL, is it async or not)
 	xhr.open("POST", url, true);
+
+	// Tells server to expect json data and its the type of char encoding
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	//----
 	try
 	{
+		// Sets an event handler anytime the state of XMLHttpRequest's state changes
 		xhr.onreadystatechange = function() 
 		{
+			// onreadstatechange has 5 states (0-4): unsent, opened, headers_received, loading, done. There are multiple statuses: 200, 404, 405 which are HTTP errors etc 
+			// # 4 means request is complete and status of 200 means response was successful
 			if (this.readyState == 4 && this.status == 200) 
 			{
+				// converts the JSON response from our given form data back into a JS object
 				let jsonObject = JSON.parse( xhr.responseText );
+
+				// Gets the USERID from the server response
 				userId = jsonObject.id;
 		
+				// Sets an error msg for loginResult for a failed login attempt & sets why
 				if( userId < 1 )
 				{		
 					document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
-					return;
+					return; // exits from event handler funciton
 				}
-		
+				
+				// Retrives the first and last name of user if successful
 				firstName = jsonObject.firstName;
 				lastName = jsonObject.lastName;
 
+				// Calls saveCookie() function to store user in a browser cookie
 				saveCookie();
-	
+
+				// Sends user to next page
 				window.location.href = "color.html";
 			}
 		};
+		// What sends request with JSON data container username / password
 		xhr.send(jsonPayload);
 	}
+
+	// This catches js errors like with JSON parsing so if error found, it gives an err msg
 	catch(err)
 	{
 		document.getElementById("loginResult").innerHTML = err.message;
 	}
 
 }
+
 
 function saveCookie()
 {
@@ -113,7 +145,7 @@ function addColor()
 	let newColor = document.getElementById("colorText").value;
 	document.getElementById("colorAddResult").innerHTML = "";
 
-	let tmp = {color:newColor,userId,userId};
+	let tmp = {color: newColor, userId, userId};
 	let jsonPayload = JSON.stringify( tmp );
 
 	let url = urlBase + '/AddColor.' + extension;
@@ -146,7 +178,7 @@ function searchColor()
 	
 	let colorList = "";
 
-	let tmp = {search:srch,userId:userId};
+	let tmp = {search: srch, userId: userId};
 	let jsonPayload = JSON.stringify( tmp );
 
 	let url = urlBase + '/SearchColors.' + extension;
