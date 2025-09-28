@@ -1,5 +1,5 @@
 <?php
-    // Search specific contacts for login user.
+    // Retrieve entire contact list for login user.
     $inData = getRequestInfo();
     
     $searchResults = "";
@@ -12,10 +12,8 @@
     } 
     else
     {
-        // Partial match search - CRITICAL for rubric
-        $stmt = $conn->prepare("SELECT ID, FirstName, LastName, Email, Phone, Company FROM Contacts WHERE (FirstName LIKE ? OR LastName LIKE ? OR Email LIKE ? OR Company LIKE ?) AND UserID=?");
-        $searchTerm = "%" . $inData["search"] . "%";
-        $stmt->bind_param("ssssi", $searchTerm, $searchTerm, $searchTerm, $searchTerm, $inData["userId"]);
+        $stmt = $conn->prepare("SELECT ID, FirstName, LastName, Email, Phone, Company FROM Contacts WHERE UserID=? ORDER BY LastName, FirstName");
+        $stmt->bind_param("i", $inData["userId"]);
         $stmt->execute();
         
         $result = $stmt->get_result();
@@ -27,13 +25,12 @@
                 $searchResults .= ",";
             }
             $searchCount++;
-            // Return JSON objects, not strings!
-            $searchResults .= '{"id":' . $row["ID"] . ',"firstName":"' . $row["FirstName"] . '","lastName":"' . $row["LastName"] . '","email":"' . $row["Email"] . '","phone":"' . $row["Phone"] . '","company":"' . $row["Company"] . '"}';
+            $searchResults .= '{"id":' . $row["ID"] . ',"firstName":"' . $row["FirstName"] . '","lastName":"' . $row["LastName"] . '","email":"' . $row["Email"] . '","phone":"' . $row["Phone"] . ',"company":"' . $row["Company"] . '"}';
         }
         
         if( $searchCount == 0 )
         {
-            returnWithError( "No Records Found" );
+            returnWithError( "No Contacts Found" );
         }
         else
         {

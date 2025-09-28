@@ -1,7 +1,7 @@
 <?php
 	$inData = getRequestInfo();
 
-    $conn = new mysqli("[HOST]", "[USERNAME]", "[PASSWORD]", "[DATABASE]");
+    $conn = new mysqli("143.110.151.237", "POOS_db", "Small_2025_Project", "poos_app");
     if ($conn->connect_error) 
     {
         returnWithError($conn->connect_error);

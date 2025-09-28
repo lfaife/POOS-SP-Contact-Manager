@@ -1,19 +1,26 @@
 <?php
+    // Update existing contact for login user.
     $inData = getRequestInfo();
 
-    $conn = new mysqli("143.110.151.237", "POOS_db", "Small_2025_Project", "poos_app");   
+    $conn = new mysqli("143.110.151.237", "POOS_db", "Small_2025_Project", "poos_app");
     if ($conn->connect_error) 
     {
         returnWithError($conn->connect_error);
     } 
     else
     {
-        $stmt = $conn->prepare("INSERT INTO Contacts (UserID, FirstName, LastName, Email, Phone, Company) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("isssss", $inData["userId"], $inData["firstName"], $inData["lastName"], $inData["email"], $inData["phone"], $inData["company"]);
+        $stmt = $conn->prepare("UPDATE Contacts SET FirstName=?, LastName=?, Email=?, Phone=?, Company=? WHERE ID=? AND UserID=?");
+        $stmt->bind_param("sssssii", $inData["firstName"], $inData["lastName"], $inData["email"], $inData["phone"], $inData["company"], $inData["contactId"], $inData["userId"]);
         $stmt->execute();
         
-        $contactId = $conn->insert_id;
-        returnWithInfo($contactId, $inData["firstName"], $inData["lastName"], $inData["email"], $inData["phone"], $inData["company"]);
+        if($stmt->affected_rows > 0)
+        {
+            returnWithInfo($inData["contactId"], $inData["firstName"], $inData["lastName"], $inData["email"], $inData["phone"], $inData["company"]);
+        }
+        else
+        {
+            returnWithError("Contact not found or no changes made");
+        }
     }
 
     function getRequestInfo()
@@ -29,7 +36,7 @@
 
     function returnWithError( $err )
     {
-        $retValue = '{"id":0,"error":"' . $err . '"}';
+        $retValue = '{"error":"' . $err . '"}';
         sendResultInfoAsJson( $retValue );
     }
     
