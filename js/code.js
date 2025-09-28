@@ -9,7 +9,7 @@ let lastName = "";
 
 function doLogin()
 {
-	// Reassigns variabless for this function scrope
+	// Reassigns variables for this function scrope
 	userId = 0;
 	firstName = "";
 	lastName = "";
@@ -89,6 +89,82 @@ function doLogin()
 
 }
 
+//This function is very similar to doLogin(), with some key differences
+function doRegister()
+{
+	// Reassigns variables for this function's scope
+	userId = 0;
+	firstName = "";
+	lastName = "";
+	
+	// Grabs the values for first name, last name, username, and password
+	let firstN = document.getElementById("firstName").value;
+	let lastN = document.getElementById("lastName").value;
+	let login = document.getElementById("reg-loginName").value;
+	let password = document.getElementById("reg-loginPassword").value;
+//	var hash = md5( password );
+	
+	// Resets the value in registerResult do display ""
+	// Clears any prev errors messages before starting register
+	document.getElementById("registerResult").innerHTML = "";
+
+	// Stores information as an object key-value pair for parsing
+	let tmp = {firstN: firstN, lastN: lastN, login: login, password: password};
+
+	// This was already commented out
+//	var tmp = {login:login,password:hash}; 
+
+	// Parses tmp into a JSON 
+	let jsonPayload = JSON.stringify( tmp );0
+	// ----
+	// Here we grab urlBase + php file + file extension
+	let url = urlBase + '/Register.' + extension;
+
+	// Creates a new request manager (older version of Fetch)
+	let xhr = new XMLHttpRequest();
+	
+	// Sets the parameters for the request. (Method, URL, is it async or not)
+	xhr.open("POST", url, true);
+
+	// Tells server to expect json data and its the type of char encoding
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	//----
+	try
+	{
+		// Sets an event handler anytime the state of XMLHttpRequest's state changes
+		xhr.onreadystatechange = function() 
+		{
+			// onreadstatechange has 5 states (0-4): unsent, opened, headers_received, loading, done. There are multiple statuses: 200, 404, 405 which are HTTP errors etc 
+			// # 4 means request is complete and status of 200 means response was successful
+			if (this.readyState == 4 && this.status == 200) 
+			{
+				// Adds the user into the database
+				// I (Bryant) believe there should be another check before this goes through to make sure there isn't overlapping users
+				// but I am uncertain of how to check this currently; I shall return to this at a later point
+				document.getElementById("registerResult").innerHTML = "User added, redirecting...";
+				
+				// Retrives the first and last name of user if successful
+				firstName = firstN;
+				lastName = lastN;
+
+				// Calls saveCookie() function to store user in a browser cookie
+				saveCookie();
+
+				// Sends user to next page
+				window.location.href = "color.html";
+			}
+		};
+		// What sends request with JSON data container username / password
+		xhr.send(jsonPayload);
+	}
+
+	// This catches js errors like with JSON parsing so if error found, it gives an err msg
+	catch(err)
+	{
+		document.getElementById("registerResult").innerHTML = err.message;
+	}
+
+}
 
 function saveCookie()
 {
