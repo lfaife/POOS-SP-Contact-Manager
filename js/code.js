@@ -1,5 +1,5 @@
 // urlBase is 
-const urlBase = 'http://cop4331-color-project.com/LAMPAPI'; // waiting on domain name from Ryan
+const urlBase = 'http://143.110.151.237/LAMPAPI'; // waiting on domain name from Ryan
 const extension = 'php';
 
 // Sets the starting data of these values across all functions
@@ -100,8 +100,8 @@ function doRegister()
 	// Grabs the values for first name, last name, username, and password
 	let firstN = document.getElementById("firstName").value;
 	let lastN = document.getElementById("lastName").value;
-	let login = document.getElementById("reg-loginName").value;
-	let password = document.getElementById("reg-loginPassword").value;
+	let register = document.getElementById("registerName").value;
+	let password = document.getElementById("registerPassword").value;
 //	var hash = md5( password );
 	
 	// Resets the value in registerResult do display ""
@@ -109,13 +109,13 @@ function doRegister()
 	document.getElementById("registerResult").innerHTML = "";
 
 	// Stores information as an object key-value pair for parsing
-	let tmp = {firstN: firstN, lastN: lastN, login: login, password: password};
+	let tmp = {firstName: firstN, lastName: lastN, register: register, password: password};
 
 	// This was already commented out
 //	var tmp = {login:login,password:hash}; 
 
 	// Parses tmp into a JSON 
-	let jsonPayload = JSON.stringify( tmp );0
+	let jsonPayload = JSON.stringify( tmp );
 	// ----
 	// Here we grab urlBase + php file + file extension
 	let url = urlBase + '/Register.' + extension;

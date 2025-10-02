@@ -55,29 +55,11 @@ body
     opacity: 50%;
 }
 
-#loginName
-{
-	font-size: 30px;
-}
-#loginPassword
-{
-	font-size: 30px;
-}
-#firstName
-{
-	font-size: 30px;
-}
-#lastName
-{
-	font-size: 30px;
-}
-#searchText
-{
-	font-size: 30px;
-}
-#colorText
-{
-	font-size: 30px;
+
+#loginDiv, #loginName, #loginPassword, #firstName,
+#lastName, #registerName, #registerPassword, #searchText, 
+#colorText {
+    font-size: 30px;
 }
 
 input[type="text"],input[type="password"]{
@@ -146,3 +128,6 @@ select{
     font-family: 'Ubuntu', sans-serif;
     color: #95060a;
 }
+
+
+
