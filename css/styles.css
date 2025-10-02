@@ -1,6 +1,7 @@
 body 
 {
-    background-color: #707070;
+    background-color: blue;
+    background-image: linear-gradient(to bottom, #000F6D, #060335);
 }
 
 #title 
@@ -15,11 +16,16 @@ body
 
 #loginDiv
 {
+    margin-top: 150px;
     font-size: 30px;
     width: 70%;
-    margin-left: 15%;
+    margin-inline: auto;
     padding: 25px;
-    background-color: #b2b2b2;
+    background-color: #38333329;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #FFFFFF10;
+    border-radius: 25px;
 }
 
 #loggedInDiv
@@ -42,10 +48,13 @@ body
 
 .buttons
 {
-    font-size: 30px;
-    border-radius: 25px;
-    width: 50%;
-    margin-left: 25%;
+    font-size: 40px;
+    border-radius: 50px;
+    width: 70%;
+    height: 7.25%;
+    margin-left: 13.5%;
+    color: #FFFFFF;
+    background-color: #242345;
     font-family: 'Ubuntu', sans-serif;
 }
 
@@ -55,26 +64,70 @@ body
     opacity: 50%;
 }
 
+#GoToRegisterButton
+{
+    width: 25.5%;
+    display: inline-block;
+}
 
 #loginDiv, #loginName, #loginPassword, #firstName,
 #lastName, #registerName, #registerPassword, #searchText, 
 #colorText {
-    font-size: 30px;
+    font-size: 40px;
 }
 
 input[type="text"],input[type="password"]{
-    border-radius: 25px;
-    text-align: center;
-    width: 80%;
-    margin-left: 10%;
+    border-radius: 50px;
+    text-align: left;
+    text-indent: 15px;
+    width: 70%;
+    height: 7.25%;
+    margin-left: 13.5%;
     margin-bottom: 2%;
+    color: #B79A9A;
+    background-color: #242345;
     font-family: 'Ubuntu', sans-serif;
 }
 
 #inner-title{
     display: inline-block;
-    font-size: 0.8em;
+    font-size: 64px;
     width: 90%;
+    text-align: center;
+    margin-left: 5%;
+    margin-bottom: 0.75%;
+    font-family: 'Ubuntu', sans-serif;
+    color: #FFFFFF;
+}
+
+#inner-text{
+    display: inline-block;
+    font-size: 24px;
+    width: 90%;
+    text-align: center;
+    margin-left: 5%;
+    margin-bottom: 4%;
+    font-family: 'Ubuntu', sans-serif;
+    color: #FFFFFF;
+}
+
+#msgtoregister{
+    display: inline-block;
+    font-size: 32px;
+    width: 30%;
+    text-align: left;
+    margin-top: 3%;
+    margin-left: 13.5%;
+    margin-bottom: 2%;
+    font-family: 'Ubuntu', sans-serif;
+    color: #FFFFFF;
+}
+
+#loginResult{
+    display: inline-block;
+    font-size: 24px;
+    width: 90%;
+    height: 2%;
     text-align: center;
     margin-left: 5%;
     margin-bottom: 2%;
@@ -82,10 +135,11 @@ input[type="text"],input[type="password"]{
     color: #95060a;
 }
 
-#loginResult{
+#registerResult{
     display: inline-block;
-    font-size: 0.8em;
+    font-size: 24px;
     width: 90%;
+    height: 2%;
     text-align: center;
     margin-left: 5%;
     margin-bottom: 2%;

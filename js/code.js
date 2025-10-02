@@ -166,6 +166,12 @@ function doRegister()
 
 }
 
+//Should theoretically send people to the register page
+function gotoRegister()
+{
+	window.location.href = "register.html";
+}
+
 function saveCookie()
 {
 	let minutes = 20;
