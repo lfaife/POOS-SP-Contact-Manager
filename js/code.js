@@ -1,5 +1,5 @@
 // urlBase is 
-const urlBase = 'http://143.110.151.237/LAMPAPI'; // waiting on domain name from Ryan
+const urlBase = 'http://cop4331-azurebase-contact-manager.com/LAMPAPI'; // waiting on domain name from Ryan
 const extension = 'php';
 
 // Sets the starting data of these values across all functions
