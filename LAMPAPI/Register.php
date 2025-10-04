@@ -1,4 +1,4 @@
-<?php
+<?php 
     // Get incoming Json data from request 
 	$inData = getRequestInfo();
 
@@ -22,7 +22,7 @@
         }
         else {
             // Insert new user into the user table
-            $stmt = $conn->prepare("INSERT INTO Users (firstName, lastName, Login, Password) VALUES (?, ?, ?, ?)");
+            $stmt = $conn->prepare("INSERT INTO Users (FirstName, LastName, Login, Password) VALUES (?, ?, ?, ?)");
             $stmt->bind_param("ssss", $inData["firstName"], $inData["lastName"], $inData["login"], $inData["password"]);
             $stmt->execute();
             

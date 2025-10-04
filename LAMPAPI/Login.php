@@ -4,22 +4,22 @@
 
     // Connect to database
     $conn = new mysqli("143.110.151.237", "POOS_db", "Small_2025_Project", "poos_app");
-	if ($conn->connect_error) 
+    if ($conn->connect_error) 
 	{
 		returnWithError( $conn->connect_error );
 	} 
 	else
 	{
         // Users table for matching login credentials
-		$stmt = $conn->prepare("SELECT ID, firstName, lastName FROM Users WHERE Login=? AND Password=?");
-		$stmt->bind_param("ss", $inData["login"], $inData["password"]); // casesensitive
+		$stmt = $conn->prepare("SELECT ID, FirstName, LastName FROM Users WHERE Login=? AND Password=?");
+        $stmt->bind_param("ss", $inData["login"], $inData["password"]); // casesensitive
         $stmt->execute();
         $result = $stmt->get_result();
 
         if( $row = $result->fetch_assoc()  )
         {
             // Match found
-            returnWithInfo( $row["firstName"], $row["lastName"], $row["ID"] );
+            returnWithInfo( $row["FirstName"], $row["LastName"], $row["ID"] );
         }
         else
         {
