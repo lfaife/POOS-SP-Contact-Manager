@@ -1,11 +1,12 @@
 // urlBase is 
-const urlBase = 'http://143.110.151.237/LAMPAPI'; // waiting on domain name from Ryan
+const urlBase = 'http://cop4331-azurebase-contact-manager.com/LAMPAPI';
 const extension = 'php';
 
 // Sets the starting data of these values across all functions
 let userId = 0;
 let firstName = "";
 let lastName = "";
+const contactList = [];
 
 function doLogin()
 {
@@ -24,7 +25,10 @@ function doLogin()
 	document.getElementById("loginResult").innerHTML = "";
 
 	// Stores login / password as object key-value pairs for parsing
-	let tmp = {login: login, password: password};
+	let tmp = {
+		login: login,
+		password: password
+	};
 
 	// This was already commented out
 //	var tmp = {login:login,password:hash}; 
@@ -74,7 +78,7 @@ function doLogin()
 				saveCookie();
 
 				// Sends user to next page
-				window.location.href = "color.html";
+				window.location.href = "contacts.html";
 			}
 		};
 		// What sends request with JSON data container username / password
@@ -109,7 +113,12 @@ function doRegister()
 	document.getElementById("registerResult").innerHTML = "";
 
 	// Stores information as an object key-value pair for parsing
-	let tmp = {firstName: firstN, lastName: lastN, register: register, password: password};
+	let tmp = {
+		firstName: firstN,
+		lastName: lastN,
+		login: register,
+		password: password
+	};
 
 	// This was already commented out
 //	var tmp = {login:login,password:hash}; 
@@ -138,9 +147,13 @@ function doRegister()
 			// # 4 means request is complete and status of 200 means response was successful
 			if (this.readyState == 4 && this.status == 200) 
 			{
+				// converts the JSON response from our given form data back into a JS object
+				let jsonObject = JSON.parse( xhr.responseText );
+
+				// Gets the USERID from the server response
+				userId = jsonObject.id;
+				
 				// Adds the user into the database
-				// I (Bryant) believe there should be another check before this goes through to make sure there isn't overlapping users
-				// but I am uncertain of how to check this currently; I shall return to this at a later point
 				document.getElementById("registerResult").innerHTML = "User added, redirecting...";
 				
 				// Retrives the first and last name of user if successful
@@ -151,7 +164,7 @@ function doRegister()
 				saveCookie();
 
 				// Sends user to next page
-				window.location.href = "color.html";
+				window.location.href = "contacts.html";
 			}
 		};
 		// What sends request with JSON data container username / password
@@ -166,6 +179,13 @@ function doRegister()
 
 }
 
+//Sends the user to the register page
+function gotoRegister()
+{
+	window.location.href = "register.html";
+}
+
+//Saves the information of a user for easy access later
 function saveCookie()
 {
 	let minutes = 20;
@@ -207,6 +227,7 @@ function readCookie()
 	}
 }
 
+//Logs the user out of the website
 function doLogout()
 {
 	userId = 0;
@@ -216,16 +237,37 @@ function doLogout()
 	window.location.href = "index.html";
 }
 
-function addColor()
+//Adds a Contact to a user's list of contacts
+//This is both in the database and visually represented on the website
+//Should theoretically accept First Name, Last Name, Phone Number, and Email as valid inputs
+function addContact()
 {
-	let newColor = document.getElementById("colorText").value;
-	document.getElementById("colorAddResult").innerHTML = "";
+	//Obtains the data needed for a new contact
+	let addFirstN = document.getElementById("addFirstName").value;
+	let addLastN = document.getElementById("addLastName").value;
+	let addPhoneN = document.getElementById("addPhoneNum").value;
+	let addEmail = document.getElementById("addE-mail").value;
+	
+	//Resets the value in contactAddResult to display ""
+	//In essence, removes any error codes if any are present
+	document.getElementById("contactAddResult").innerHTML = "";
 
-	let tmp = {color: newColor, userId, userId};
+	//Stores information as an object key-value pair for parsing into a JSON
+	let tmp = {
+		userId: userId,
+		firstName: addFirstN,
+		lastName: addLastN,
+		email: addEmail,
+		phone: addPhoneN
+	};
 	let jsonPayload = JSON.stringify( tmp );
 
-	let url = urlBase + '/AddColor.' + extension;
+	//Obtain url by combining the base, php, and file extension
+	let url = urlBase + '/AddContacts.' + extension;
 	
+	//Sends the request to add the Contact to the database
+	//If successful, contact is properly added for the user
+	//If not, returns an error
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -235,29 +277,54 @@ function addColor()
 		{
 			if (this.readyState == 4 && this.status == 200) 
 			{
-				document.getElementById("colorAddResult").innerHTML = "Color has been added";
+				document.getElementById("contactAddResult").innerHTML = "Contact has been added";
 			}
 		};
 		xhr.send(jsonPayload);
 	}
 	catch(err)
 	{
-		document.getElementById("colorAddResult").innerHTML = err.message;
+		document.getElementById("contactAddResult").innerHTML = err.message;
 	}
 	
 }
 
-function searchColor()
+//Searches for a Contact in a user's list of contacts
+//Should theoretically accept First Name, Last Name, Phone Number, and Email as valid inputs
+function searchContact()
 {
-	let srch = document.getElementById("searchText").value;
-	document.getElementById("colorSearchResult").innerHTML = "";
+	//Obtains the data needed for a new contact
+	/*
+	let seaFirstN = document.getElementById("seaFirstName").value;
+	let seaLastN = document.getElementById("seaLastName").value;
+	let seaPhoneN = document.getElementById("seaPhoneNum").value;
+	let seaEmail = document.getElementById("seaE-mail").value;
+	*/
+	let srch = document.getElementById("searchvalue").value;
 	
-	let colorList = "";
+	//Resets the value in contactSearchResult to display ""
+	//In essence, removes any error codes if any are present
+	document.getElementById("contactSearchResult").innerHTML = "";
+	
+	//Empties the contactList to prepare for the adjustment to the search
+	contactList = "";
 
-	let tmp = {search: srch, userId: userId};
+	//Stores information as an object key-value pair for parsing into a JSON
+	/*let tmp = {
+		userId: userId,
+		firstName: seaFirstN,
+		lastName: seaLastN,
+		email: seaEmail,
+		phone: seaPhoneN
+	};*/
+	let tmp = {
+		search: srch,
+		userId: userId
+	};
 	let jsonPayload = JSON.stringify( tmp );
 
-	let url = urlBase + '/SearchColors.' + extension;
+	//Obtain url by combining the base, php, and file extension
+	let url = urlBase + '/SearchContacts.' + extension;
 	
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
@@ -268,26 +335,71 @@ function searchColor()
 		{
 			if (this.readyState == 4 && this.status == 200) 
 			{
-				document.getElementById("colorSearchResult").innerHTML = "Color(s) has been retrieved";
+				document.getElementById("contactSearchResult").innerHTML = "Contact(s) has been retrieved";
 				let jsonObject = JSON.parse( xhr.responseText );
 				
 				for( let i=0; i<jsonObject.results.length; i++ )
 				{
-					colorList += jsonObject.results[i];
+					contactList += jsonObject.results[i];
 					if( i < jsonObject.results.length - 1 )
 					{
-						colorList += "<br />\r\n";
+						contactList += "<br />\r\n";
 					}
 				}
 				
-				document.getElementsByTagName("p")[0].innerHTML = colorList;
+				document.getElementsByTagName("p")[0].innerHTML = contactList;
 			}
 		};
 		xhr.send(jsonPayload);
 	}
 	catch(err)
 	{
-		document.getElementById("colorSearchResult").innerHTML = err.message;
+		document.getElementById("contactSearchResult").innerHTML = err.message;
+	}
+	
+}
+
+//Edits a Contact to a user's list of contacts
+//This is both in the database and visually represented on the website
+function editContact()
+{
+	//Obtains the data needed for a new contact
+	let editFirstN = document.getElementById("editFirstName").value;
+	let editLastN = document.getElementById("editLastName").value;
+	let editPhoneN = document.getElementById("editPhoneNum").value;
+	let editEmail = document.getElementById("editE-mail").value;
+	
+	//Resets the value in contactEditResult to display ""
+	//In essence, removes any error codes if any are present
+	document.getElementById("contactEditResult").innerHTML = "";
+
+	//Stores information as an object key-value pair for parsing into a JSON
+	let tmp = {userId: userId, firstName: editFirstN, lastName: editLastN, email: editEmail, phone: editPhoneN};
+	let jsonPayload = JSON.stringify( tmp );
+
+	//Obtain url by combining the base, php, and file extension
+	let url = urlBase + '/UpdateContact.' + extension;
+	
+	//Sends the request to edit the Contact to the database
+	//If successful, contact is properly edited for the user
+	//If not, returns an error
+	let xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function() 
+		{
+			if (this.readyState == 4 && this.status == 200) 
+			{
+				document.getElementById("contactEditResult").innerHTML = "Contact has been edited";
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("contactEditResult").innerHTML = err.message;
 	}
 	
 }
