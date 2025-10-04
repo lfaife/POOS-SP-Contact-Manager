@@ -1,0 +1,12 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(270deg, #00BFFF, #004080);
+}
+
+.Azure-container {
+}

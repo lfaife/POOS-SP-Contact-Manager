@@ -11,16 +11,59 @@
     <script type="text/javascript" src="js/code.js"></script>
 </head>
 <body>
+    <main>
+        
+            <!-- Grid layout for Responsive Design -->     
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-6 col-lg-4">
+                    
+                     <!-- Login Card -->
+                    <section>
+                        <div class="container">   
+                            <div class="login-card">
+                                
+                                <!-- Header -->     
+                                <header class="gap-3">
+                                    <span id="inner-title">Welcome Back</span>
+                                    <span id="inner-text">Enter your credentials below</span>
+                                </header>
+    
+                                <!-- Form -->     
+                                <form action="/login" method="POST" class="p-3 mb-3">
+                                    <div>
+                                        <label for="username" class="form-label">Username</label>
+                                        <input type="text" class="form-control" id="username" name="username">
+                                    </div>
+    
+                                    <div>
+                                        <label for="password" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="password" name="password">
+                                    </div>
+    
+                                    <!-- Where errors go -->     
+                                    <span id="loginResult"></span>
+    
+                                    <button type="button" id="loginButton" class="buttons" onclick="doLogin();"> Meet the Crew </button>
+                                </form>
+                                
+                                <footer class="footer2 h5 ">
+                                    <div class="d-flex justify-content-between">
+                                        <p class="crew">Not a Crew Member?</p>
+                                        <a href="/register.html" class="join">Join Today</a>
+                                    </div>
+                                </footer>
+                            </div>
+                        </div>
+        
+                    </section>
+                </div>
+            </div>
 
-<div id="loginDiv">
-	<span id="inner-title">Welcome Back</span>
-	<span id="inner-text">Enter your credentials below</span>
-	<input type="text" id="loginName" placeholder="Enter your username" /><br />
-	<input type="password" id="loginPassword" placeholder="Enter your password"/><br />
-	<span id="loginResult"></span>
-	<button type="button" id="loginButton" class="buttons" onclick="doLogin();"> Meet the Crew </button>
-	<span id="msgtoregister">Not a Crew Member?</span>
-	<button type="button" id="GoToRegisterButton" class="buttons" onclick="gotoRegister();"> Join Today </button>
+    </main>
+
+        </div>
+
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
