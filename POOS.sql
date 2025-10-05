@@ -57,52 +57,6 @@ INSERT INTO `Users` VALUES
 (2,'Bob','Builder','bob','password456'),
 (3,'Charlie','Brown','charlie','password789');
 
---
--- Table structure for lowercase `users`
---
-
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE `users` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `password_hash` varchar(255) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`),
-  UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-INSERT INTO `users` VALUES 
-(1,'alice','alice@example.com','hash1','2025-09-28 02:32:10'),
-(2,'bob','bob@example.com','hash2','2025-09-28 02:32:10');
-
---
--- Table structure for lowercase `contacts`
---
-
-DROP TABLE IF EXISTS `contacts`;
-CREATE TABLE `contacts` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` bigint unsigned NOT NULL,
-  `first_name` varchar(100) NOT NULL,
-  `last_name` varchar(100) NOT NULL,
-  `email` varchar(150) DEFAULT NULL,
-  `phone` varchar(20) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uq_contacts_per_user_email` (`user_id`,`email`),
-  KEY `idx_contacts_user_name` (`user_id`,`last_name`,`first_name`),
-  KEY `idx_contacts_email` (`email`),
-  CONSTRAINT `fk_contacts_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-INSERT INTO `contacts` VALUES 
-(1,1,'Ada','Lovelace','ada@uni.edu','+1-555-0101','2025-09-28 02:32:10','2025-09-28 02:32:10'),
-(2,1,'Alan','Turing','alan@uni.edu','+1-555-0102','2025-09-28 02:32:10','2025-09-28 02:32:10'),
-(3,2,'Jane','Doe','jane.doe@example.com','+1-555-0202','2025-09-28 02:32:10','2025-09-28 02:32:10');
-
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
