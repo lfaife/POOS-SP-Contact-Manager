@@ -6,7 +6,7 @@ const extension = 'php';
 let userId = 0;
 let firstName = "";
 let lastName = "";
-const contactList = [];
+const cids = [];
 
 function doLogin()
 {
@@ -113,7 +113,8 @@ function doRegister()
 	document.getElementById("registerResult").innerHTML = "";
 
 	// Stores information as an object key-value pair for parsing
-	let tmp = {
+	let tmp =
+	{
 		firstName: firstN,
 		lastName: lastN,
 		login: register,
@@ -157,8 +158,8 @@ function doRegister()
 				document.getElementById("registerResult").innerHTML = "User added, redirecting...";
 				
 				// Retrives the first and last name of user if successful
-				firstName = firstN;
-				lastName = lastN;
+				firstName = jsonObject.firstName;
+                lastName = jsonObject.lastName;
 
 				// Calls saveCookie() function to store user in a browser cookie
 				saveCookie();
@@ -253,7 +254,8 @@ function addContact()
 	document.getElementById("contactAddResult").innerHTML = "";
 
 	//Stores information as an object key-value pair for parsing into a JSON
-	let tmp = {
+	let tmp =
+	{
 		userId: userId,
 		firstName: addFirstN,
 		lastName: addLastN,
@@ -278,6 +280,7 @@ function addContact()
 			if (this.readyState == 4 && this.status == 200) 
 			{
 				document.getElementById("contactAddResult").innerHTML = "Contact has been added";
+				loadContacts();
 			}
 		};
 		xhr.send(jsonPayload);
@@ -289,117 +292,222 @@ function addContact()
 	
 }
 
-//Searches for a Contact in a user's list of contacts
-//Should theoretically accept First Name, Last Name, Phone Number, and Email as valid inputs
-function searchContact()
+//Grabs the contacts of a user, displaying them on the table
+function loadContacts()
 {
-	//Obtains the data needed for a new contact
-	/*
-	let seaFirstN = document.getElementById("seaFirstName").value;
-	let seaLastN = document.getElementById("seaLastName").value;
-	let seaPhoneN = document.getElementById("seaPhoneNum").value;
-	let seaEmail = document.getElementById("seaE-mail").value;
-	*/
-	let srch = document.getElementById("searchvalue").value;
-	
-	//Resets the value in contactSearchResult to display ""
-	//In essence, removes any error codes if any are present
-	document.getElementById("contactSearchResult").innerHTML = "";
-	
-	//Empties the contactList to prepare for the adjustment to the search
-	contactList = "";
+    //Send an empty search to grab all contacts
+	let tmp =
+	{
+        search: "",
+        userId: userId
+    };
 
-	//Stores information as an object key-value pair for parsing into a JSON
-	/*let tmp = {
-		userId: userId,
-		firstName: seaFirstN,
-		lastName: seaLastN,
-		email: seaEmail,
-		phone: seaPhoneN
-	};*/
-	let tmp = {
-		search: srch,
-		userId: userId
-	};
-	let jsonPayload = JSON.stringify( tmp );
+    //Parse it into a JSON
+	let jsonPayload = JSON.stringify(tmp);
 
-	//Obtain url by combining the base, php, and file extension
-	let url = urlBase + '/SearchContacts.' + extension;
-	
-	let xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    //Obtains url, sends a request to recieve user's contacts, and returns successfully or with an error
+	let url = urlBase + '/GetContacts.' + extension;
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+    //Returns the user's contacts, filling in the table
 	try
 	{
-		xhr.onreadystatechange = function() 
+        xhr.onreadystatechange = function ()
 		{
-			if (this.readyState == 4 && this.status == 200) 
+            if (this.readyState == 4 && this.status == 200)
 			{
-				document.getElementById("contactSearchResult").innerHTML = "Contact(s) has been retrieved";
-				let jsonObject = JSON.parse( xhr.responseText );
-				
-				for( let i=0; i<jsonObject.results.length; i++ )
+                let jsonObject = JSON.parse(xhr.responseText);
+                if (jsonObject.error)
 				{
-					contactList += jsonObject.results[i];
-					if( i < jsonObject.results.length - 1 )
-					{
-						contactList += "<br />\r\n";
-					}
-				}
-				
-				document.getElementsByTagName("p")[0].innerHTML = contactList;
-			}
-		};
-		xhr.send(jsonPayload);
-	}
-	catch(err)
+                    console.log(jsonObject.error);
+                    return;
+                }
+                let text = "<table border='1'>"
+                for (let i = 0; i < jsonObject.results.length; i++)
+				{
+                    cids[i] = jsonObject.results[i].ID
+                    text += "<tr id='row" + i + "'>"
+                    text += "<td id='first_Name" + i + "'><span>" + jsonObject.results[i].FirstName + "</span></td>";
+                    text += "<td id='last_Name" + i + "'><span>" + jsonObject.results[i].LastName + "</span></td>";
+                    text += "<td id='email" + i + "'><span>" + jsonObject.results[i].Email + "</span></td>";
+                    text += "<td id='phone" + i + "'><span>" + jsonObject.results[i].Phone + "</span></td>";
+                    text += "<td>" +
+                        "<button type='button' id='edit_button" + i + "' class='w3-button w3-circle w3-lime' onclick='editContact(" + i + ")'>" + "<span class='glyphicon glyphicon-edit'></span>" + "</button>" +
+                        "<button type='button' onclick='deleteContact(" + i + ")' class='w3-button w3-circle w3-amber'>" + "<span class='glyphicon glyphicon-trash'></span> " + "</button>" + "</td>";
+                    text += "<tr/>"
+                }
+                text += "</table>"
+                document.getElementById("ContactsTable").innerHTML = text;
+            }
+        };
+        xhr.send(jsonPayload);
+    }
+	catch (err)
 	{
-		document.getElementById("contactSearchResult").innerHTML = err.message;
-	}
-	
+        document.getElementById("contactSearchResult").innerHTML = err.message;
+    }
 }
 
-//Edits a Contact to a user's list of contacts
-//This is both in the database and visually represented on the website
-function editContact()
+//Brings up the edit modal to edit the selected contact
+function editContact(id)
 {
-	//Obtains the data needed for a new contact
-	let editFirstN = document.getElementById("editFirstName").value;
-	let editLastN = document.getElementById("editLastName").value;
-	let editPhoneN = document.getElementById("editPhoneNum").value;
-	let editEmail = document.getElementById("editE-mail").value;
-	
-	//Resets the value in contactEditResult to display ""
-	//In essence, removes any error codes if any are present
-	document.getElementById("contactEditResult").innerHTML = "";
+    var consFirstName = document.getElementById("first_Name" + id);
+    var consLastName = document.getElementById("last_Name" + id);
+    var consEmail = document.getElementById("email" + id);
+    var consPhone = document.getElementById("phone" + id);
 
-	//Stores information as an object key-value pair for parsing into a JSON
-	let tmp = {userId: userId, firstName: editFirstN, lastName: editLastN, email: editEmail, phone: editPhoneN};
-	let jsonPayload = JSON.stringify( tmp );
+    var mod_fname = consFirstName.innerText;
+    var mod_lname = consLastName.innerText;
+    var mod_email = consEmail.innerText;
+    var mod_phone = consPhone.innerText;
 
-	//Obtain url by combining the base, php, and file extension
-	let url = urlBase + '/UpdateContact.' + extension;
-	
-	//Sends the request to edit the Contact to the database
-	//If successful, contact is properly edited for the user
-	//If not, returns an error
-	let xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
+	consFirstName.innerHTML = "<input type='text' id='fname_text" + id + "' value='" + mod_fname + "'>";
+    consLastName.innerHTML = "<input type='text' id='lname_text" + id + "' value='" + mod_lname + "'>";
+    consEmail.innerHTML = "<input type='text' id='email_text" + id + "' value='" + mod_email + "'>";
+    consPhone.innerHTML = "<input type='text' id='phone_text" + id + "' value='" + mod_phone + "'>"
+}
+
+//Saves the changes made in the edit modal and sends them back to the database
+function saveChangedContact(rownum)
+{
+    var fname_val = document.getElementById("fname_text" + rownum).value;
+    var lname_val = document.getElementById("lname_text" + rownum).value;
+    var email_val = document.getElementById("email_text" + rownum).value;
+    var phone_val = document.getElementById("phone_text" + rownum).value;
+    var conid_val = cids[rownum]
+
+    document.getElementById("first_Name" + rownum).innerHTML = fname_val;
+    document.getElementById("last_Name" + rownum).innerHTML = lname_val;
+    document.getElementById("email" + rownum).innerHTML = email_val;
+    document.getElementById("phone" + rownum).innerHTML = phone_val;
+
+    let tmp =
 	{
-		xhr.onreadystatechange = function() 
+        firstName: fname_val,
+        lastName: lname_val,
+        phone: phone_val,
+        email: email_val,
+        contactId: conid_val,
+		userId: userId
+    };
+
+    let jsonPayload = JSON.stringify(tmp);
+
+    let url = urlBase + '/UpdateContact.' + extension;
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    try
+	{
+        xhr.onreadystatechange = function ()
 		{
-			if (this.readyState == 4 && this.status == 200) 
-			{
-				document.getElementById("contactEditResult").innerHTML = "Contact has been edited";
-			}
-		};
-		xhr.send(jsonPayload);
-	}
-	catch(err)
+            if (this.readyState == 4 && this.status == 200)
+				{
+                document.getElementById("contactUpdateResult").innerHTML = "Contact has been updated.";
+                loadContacts();
+            }
+        };
+        xhr.send(jsonPayload);
+    }
+	catch (err)
 	{
-		document.getElementById("contactEditResult").innerHTML = err.message;
-	}
-	
+        document.getElementById("contactUpdateResult").innerHTML = err.message;
+    }
+}
+
+//Deletes a Contact from the user's list of contacts
+function deleteContact(rowNum)
+{
+    //Attains the first and last name of the contact as well as their id on the selected row
+	//bFname and bLname are created to avoid any trash data
+	var fname_val = document.getElementById("first_Name" + rowNum).innerText;
+    var lname_val = document.getElementById("last_Name" + rowNum).innerText;
+    bFname = fname_val.substring(0, fname_val.length);
+    bLname = lname_val.substring(0, lname_val.length);
+	var conId = cids[rowNum]
+    
+	//Asks the user for confirmation that the selected contact will be deleted
+	let check = confirm(bFname + ' ' + bLname + ' will be removed from the crew. Is this ok?');
+    if (check === true)
+	{
+        //The following is the usual procedure for requests to the server
+		document.getElementById("row" + rowNum + "").outerHTML = "";
+        let tmp =
+		{
+            contactId: conId,
+            userId: userId
+        };
+
+        let jsonPayload = JSON.stringify(tmp);
+
+        let url = urlBase + '/DeleteContacts.' + extension;
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        try
+		{
+            xhr.onreadystatechange = function ()
+			{
+                if (this.readyState == 4 && this.status == 200)
+				{
+                    document.getElementById("contactDeleteResult").innerHTML = "Contact has been deleted.";
+                    loadContacts();
+                }
+            };
+            xhr.send(jsonPayload);
+        }
+		catch (err)
+		{
+            document.getElementById("contactDeleteResult").innerHTML = err.message;
+        }
+    };
+}
+
+//Searches for a Contact in a user's list of contacts
+//Should theoretically accept one input that'll work for all fields: First Name, Last Name, Phone Number, and Email
+//Will be constantly running as long as the user types in the search field
+//Code currently taken from 4331paradise.com project, will be adjusted to work for our purposes
+function searchContacts()
+{
+    //Takes the text that is inputted into the search field and strengthens it 
+	const content = document.getElementById("searchText");
+    const selections = content.value.toUpperCase().split(' ');
+    
+	//Takes the table that is showing the contacts and prepares to grab its elements
+	const table = document.getElementById("contacts");
+    const tr = table.getElementsByTagName("tr");// Table Row
+
+    //What this section does is check if what is inputted into the search field matches with a first or last name of every row in the table
+	//Will be changed to also allow for searching with phone numbers and emails
+	for (let i = 0; i < tr.length; i++)
+	{
+        const td_fn = tr[i].getElementsByTagName("td")[0]; // Table Data: First Name
+        const td_ln = tr[i].getElementsByTagName("td")[1]; // Table Data: Last Name
+
+        //According to CoPilot, this if statement says that the code will continue if both first and last name fields are filled for that row
+		if (td_fn && td_ln)
+		{
+            //After checking that the two names exist, it'll display the row if either name is a hit with the search input
+			//It starts by hiding the row; if a match is found, then it will unhide it
+			const txtValue_fn = td_fn.textContent || td_fn.innerText;
+            const txtValue_ln = td_ln.textContent || td_ln.innerText;
+            tr[i].style.display = "none";
+
+            for (selection of selections)
+			{
+                if (txtValue_fn.toUpperCase().indexOf(selection) > -1)
+				{
+					tr[i].style.display = "";
+                }
+                if (txtValue_ln.toUpperCase().indexOf(selection) > -1)
+				{
+                    tr[i].style.display = "";
+                }
+            }
+        }
+    }
 }
