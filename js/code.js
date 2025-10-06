@@ -238,9 +238,9 @@ function doLogout()
 	window.location.href = "index.html";
 }
 
-//Adds a Contact to a user's list of contacts
-//This is both in the database and visually represented on the website
-//Should theoretically accept First Name, Last Name, Phone Number, and Email as valid inputs
+// Adds a Contact to a user's list of contacts
+// This is both in the database and visually represented on the website
+// Should theoretically accept First Name, Last Name, Phone Number, and Email as valid inputs
 function addContact()
 {
 	//Obtains the data needed for a new contact
@@ -421,8 +421,9 @@ function saveChangedContact(rownum)
 //Deletes a Contact from the user's list of contacts
 function deleteContact(rowNum)
 {
-    //Attains the first and last name of the contact as well as their id on the selected row
-	//bFname and bLname are created to avoid any trash data
+    // Attains the first and last name of the contact as well as their id on the selected row
+	// bFname and bLname are created to avoid any trash data
+
 	var fname_val = document.getElementById("first_Name" + rowNum).innerText;
     var lname_val = document.getElementById("last_Name" + rowNum).innerText;
     bFname = fname_val.substring(0, fname_val.length);
@@ -467,10 +468,10 @@ function deleteContact(rowNum)
     };
 }
 
-//Searches for a Contact in a user's list of contacts
-//Should theoretically accept one input that'll work for all fields: First Name, Last Name, Phone Number, and Email
-//Will be constantly running as long as the user types in the search field
-//Code currently taken from 4331paradise.com project, will be adjusted to work for our purposes
+// Searches for a Contact in a user's list of contacts
+// Should theoretically accept one input that'll work for all fields: First Name, Last Name, Phone Number, and Email
+// Will be constantly running as long as the user types in the search field
+// Code currently taken from 4331paradise.com project, will be adjusted to work for our purposes
 function searchContacts()
 {
     //Takes the text that is inputted into the search field and strengthens it 
