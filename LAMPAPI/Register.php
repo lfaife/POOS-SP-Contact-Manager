@@ -1,8 +1,6 @@
-<?php 
-    // Get incoming Json data from request 
-	$inData = getRequestInfo();
-
-    // Connect to database
+<?php
+    $inData = getRequestInfo();
+    // Get incoming JSON data from request
     $conn = new mysqli("143.110.151.237", "POOS_db", "Small_2025_Project", "poos_app");
     if ($conn->connect_error) 
     {
@@ -10,34 +8,26 @@
     } 
     else
     {
-        // Check if username already exists
-        $stmt = $conn->prepare("SELECT ID FROM Users WHERE Login = ?");
-        $stmt->bind_param("s", $inData["login"]);
+        // Delete contact for specified contact ID and user ID
+        $stmt = $conn->prepare("DELETE FROM Contacts WHERE ID=? AND UserID=?");
+        $stmt->bind_param("ii", $inData["contactId"], $inData["userId"]);
         $stmt->execute();
-        $result = $stmt->get_result();
-        
-        if($row = $result->fetch_assoc()) {
-            // User already exists respond with error
-            returnWithError("User Already Exists");
+        // Check if deletion was successful
+        if($stmt->affected_rows > 0)
+        {
+            returnWithInfo("Contact deleted successfully");
         }
-        else {
-            // Insert new user into the user table
-            $stmt = $conn->prepare("INSERT INTO Users (FirstName, LastName, Login, Password) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("ssss", $inData["firstName"], $inData["lastName"], $inData["login"], $inData["password"]);
-            $stmt->execute();
-            
-            // Get new user ID and return user info
-            $userId = $conn->insert_id;
-            returnWithInfo($inData["firstName"], $inData["lastName"], $userId);
+        else
+        {
+            returnWithError("Contact not found");
         }
     }
-
-    // Decode Json from request body
-	function getRequestInfo()
+    // Decode JSON from request body
+    function getRequestInfo()
     {
         return json_decode(file_get_contents('php://input'), true);
     }
-    // Send Json response
+    // Send JSON response
     function sendResultInfoAsJson( $obj )
     {
         header('Content-type: application/json');
@@ -46,13 +36,13 @@
     // Return error response
     function returnWithError( $err )
     {
-        $retValue = '{"id":0,"firstName":"","lastName":"","error":"' . $err . '"}';
+        $retValue = '{"error":"' . $err . '"}';
         sendResultInfoAsJson( $retValue );
     }
-    // Return successful response with user info
-    function returnWithInfo( $firstName, $lastName, $id )
+    // Return success response
+    function returnWithInfo( $message )
     {
-        $retValue = '{"id":' . $id . ',"firstName":"' . $firstName . '","lastName":"' . $lastName . '","error":""}';
+        $retValue = '{"message":"' . $message . '","error":""}';
         sendResultInfoAsJson( $retValue );
     }
 ?>
