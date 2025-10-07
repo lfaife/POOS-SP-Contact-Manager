@@ -1,0 +1,49 @@
+/* Login Page Specific Styles */
+
+#loginResult {
+    display: block;
+    font-size: 12px;
+    width: 100%;
+    text-align: center;
+    margin: 10px 0;
+    font-family: 'Ubuntu', sans-serif;
+    color: #0a5ed4;
+}
+
+/* Login-specific IDs */
+#loginDiv, #loginName, #loginPassword {
+    font-size: 20px;
+}
+
+/* Login button specific styling */
+#loginButton {
+    /* Inherits from .buttons in styles.css */
+}
+
+/* Footer specific to login page */
+.footer2 {
+    width: 100%;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.footer2 p {
+    font-size: 16px;
+    color: #FFFFFF;
+    margin: 0;
+}
+
+.crew {
+    display: inline;
+    opacity: 0.8;
+}
+
+.join {
+    color: #6B9EFF;
+    text-decoration: underline;
+    margin-left: 10px;
+}
+
+.join:hover {
+    color: #8FB4FF;
+}
