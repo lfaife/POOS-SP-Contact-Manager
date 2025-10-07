@@ -1,4 +1,4 @@
-// urlBase is 
+// urlBase is
 const urlBase = 'http://cop4331-azurebase-contact-manager.com/LAMPAPI';
 const extension = 'php';
 
@@ -10,28 +10,28 @@ const cids = [];
 
 function doLogin()
 {
-	// Reassigns variables for this function scrope
-	userId = 0;
-	firstName = "";
-	lastName = "";
-	
-	// Grabs the values for username / password
-	let login = document.getElementById("loginName").value;
-	let password = document.getElementById("loginPassword").value;
-//	var hash = md5( password );
-	
-	// Resets the value in loginResult do display ""
-	// Clears any prev errors messages before starting login
-	document.getElementById("loginResult").innerHTML = "";
+        // Reassigns variables for this function scrope
+        userId = 0;
+        firstName = "";
+        lastName = "";
 
-	// Stores login / password as object key-value pairs for parsing
-	let tmp = {
-		login: login,
-		password: password
-	};
+        // Grabs the values for username / password
+        let login = document.getElementById("loginName").value;
+        let password = document.getElementById("loginPassword").value;
+//      var hash = md5( password );
 
-	// This was already commented out
-//	var tmp = {login:login,password:hash}; 
+        // Resets the value in loginResult do display ""
+        // Clears any prev errors messages before starting login
+        document.getElementById("loginResult").innerHTML = "";
+
+        // Stores login / password as object key-value pairs for parsing
+        let tmp = {
+                login: login,
+                password: password
+        };
+
+        // This was already commented out
+//      var tmp = {login:login,password:hash};
 
 	// Parses tmp into a JSON 
 	let jsonPayload = JSON.stringify( tmp );
@@ -39,57 +39,57 @@ function doLogin()
 	// Here we grab urlBase + php file + file extension
 	let url = urlBase + '/Login.' + extension;
 
-	// Creates a new request manager (older version of Fetch)
-	let xhr = new XMLHttpRequest();
-	
-	// Sets the parameters for the request. (Method, URL, is it async or not)
-	xhr.open("POST", url, true);
+        // Creates a new request manager (older version of Fetch)
+        let xhr = new XMLHttpRequest();
 
-	// Tells server to expect json data and its the type of char encoding
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	//----
-	try
-	{
-		// Sets an event handler anytime the state of XMLHttpRequest's state changes
-		xhr.onreadystatechange = function() 
-		{
-			// onreadstatechange has 5 states (0-4): unsent, opened, headers_received, loading, done. There are multiple statuses: 200, 404, 405 which are HTTP errors etc 
-			// # 4 means request is complete and status of 200 means response was successful
-			if (this.readyState == 4 && this.status == 200) 
-			{
-				// converts the JSON response from our given form data back into a JS object
-				let jsonObject = JSON.parse( xhr.responseText );
+        // Sets the parameters for the request. (Method, URL, is it async or not)
+        xhr.open("POST", url, true);
 
-				// Gets the USERID from the server response
-				userId = jsonObject.id;
-		
-				// Sets an error msg for loginResult for a failed login attempt & sets why
-				if( userId < 1 )
-				{		
-					document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
-					return; // exits from event handler funciton
-				}
-				
-				// Retrives the first and last name of user if successful
-				firstName = jsonObject.firstName;
-				lastName = jsonObject.lastName;
+        // Tells server to expect json data and its the type of char encoding
+        xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        //----
+        try
+        {
+                // Sets an event handler anytime the state of XMLHttpRequest's state changes
+                xhr.onreadystatechange = function()
+                {
+                        // onreadstatechange has 5 states (0-4): unsent, opened, headers_received, loading, done. There are multiple statuses: 200, 404, 405 which are HTTP errors etc
+                        // # 4 means request is complete and status of 200 means response was successful
+                        if (this.readyState == 4 && this.status == 200)
+                        {
+                                // converts the JSON response from our given form data back into a JS object
+                                let jsonObject = JSON.parse( xhr.responseText );
 
-				// Calls saveCookie() function to store user in a browser cookie
-				saveCookie();
+                                // Gets the USERID from the server response
+                                userId = jsonObject.id;
 
-				// Sends user to next page
-				window.location.href = "contacts.html";
-			}
-		};
-		// What sends request with JSON data container username / password
-		xhr.send(jsonPayload);
-	}
+                                // Sets an error msg for loginResult for a failed login attempt & sets why
+                                if( userId < 1 )
+                                {
+                                        document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
+                                        return; // exits from event handler funciton
+                                }
 
-	// This catches js errors like with JSON parsing so if error found, it gives an err msg
-	catch(err)
-	{
-		document.getElementById("loginResult").innerHTML = err.message;
-	}
+                                // Retrives the first and last name of user if successful
+                                firstName = jsonObject.firstName;
+                                lastName = jsonObject.lastName;
+
+                                // Calls saveCookie() function to store user in a browser cookie
+                                saveCookie();
+
+                                // Sends user to next page
+                                window.location.href = "contacts.html";
+                        }
+                };
+                // What sends request with JSON data container username / password
+                xhr.send(jsonPayload);
+        }
+
+        // This catches js errors like with JSON parsing so if error found, it gives an err msg
+        catch(err)
+        {
+                document.getElementById("loginResult").innerHTML = err.message;
+        }
 
 }
 
@@ -113,44 +113,44 @@ function doRegister()
 	// Clears any prev errors messages before starting register
 	document.getElementById("registerResult").innerHTML = "";
 
-	// Stores information as an object key-value pair for parsing
-	let tmp =
-	{
-		firstName: firstN,
-		lastName: lastN,
-		login: register,
-		password: password
-	};
+        // Stores information as an object key-value pair for parsing
+        let tmp =
+        {
+                firstName: firstN,
+                lastName: lastN,
+                login: register,
+                password: password
+        };
 
-	// This was already commented out
-//	var tmp = {login:login,password:hash}; 
+        // This was already commented out
+//      var tmp = {login:login,password:hash};
 
-	// Parses tmp into a JSON 
-	let jsonPayload = JSON.stringify( tmp );
-	// ----
-	// Here we grab urlBase + php file + file extension
-	let url = urlBase + '/Register.' + extension;
+        // Parses tmp into a JSON
+        let jsonPayload = JSON.stringify( tmp );
+        // ----
+        // Here we grab urlBase + php file + file extension
+        let url = urlBase + '/Register.' + extension;
 
-	// Creates a new request manager (older version of Fetch)
-	let xhr = new XMLHttpRequest();
-	
-	// Sets the parameters for the request. (Method, URL, is it async or not)
-	xhr.open("POST", url, true);
+        // Creates a new request manager (older version of Fetch)
+        let xhr = new XMLHttpRequest();
 
-	// Tells server to expect json data and its the type of char encoding
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	//----
-	try
-	{
-		// Sets an event handler anytime the state of XMLHttpRequest's state changes
-		xhr.onreadystatechange = function() 
-		{
-			// onreadstatechange has 5 states (0-4): unsent, opened, headers_received, loading, done. There are multiple statuses: 200, 404, 405 which are HTTP errors etc 
-			// # 4 means request is complete and status of 200 means response was successful
-			if (this.readyState == 4 && this.status == 200) 
-			{
-				// converts the JSON response from our given form data back into a JS object
-				let jsonObject = JSON.parse( xhr.responseText );
+        // Sets the parameters for the request. (Method, URL, is it async or not)
+        xhr.open("POST", url, true);
+
+        // Tells server to expect json data and its the type of char encoding
+        xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        //----
+        try
+        {
+                // Sets an event handler anytime the state of XMLHttpRequest's state changes
+                xhr.onreadystatechange = function()
+                {
+                        // onreadstatechange has 5 states (0-4): unsent, opened, headers_received, loading, done. There are multiple statuses: 200, 404, 405 which are HTTP errors etc
+                        // # 4 means request is complete and status of 200 means response was successful
+                        if (this.readyState == 4 && this.status == 200)
+                        {
+                                // converts the JSON response from our given form data back into a JS object
+                                let jsonObject = JSON.parse( xhr.responseText );
 
 				// Gets the USERID from the server response
 				userId = jsonObject.id;
@@ -169,82 +169,82 @@ function doRegister()
 				firstName = jsonObject.firstName;
                 lastName = jsonObject.lastName;
 
-				// Calls saveCookie() function to store user in a browser cookie
-				saveCookie();
+                                // Calls saveCookie() function to store user in a browser cookie
+                                saveCookie();
 
-				// Sends user to next page
-				window.location.href = "contacts.html";
-			}
-		};
-		// What sends request with JSON data container username / password
-		xhr.send(jsonPayload);
-	}
+                                // Sends user to next page
+                                window.location.href = "contacts.html";
+                        }
+                };
+                // What sends request with JSON data container username / password
+                xhr.send(jsonPayload);
+        }
 
-	// This catches js errors like with JSON parsing so if error found, it gives an err msg
-	catch(err)
-	{
-		document.getElementById("registerResult").innerHTML = err.message;
-	}
+        // This catches js errors like with JSON parsing so if error found, it gives an err msg
+        catch(err)
+        {
+                document.getElementById("registerResult").innerHTML = err.message;
+        }
 
 }
 
 //Sends the user to the register page
 function gotoRegister()
 {
-	window.location.href = "register.html";
+        window.location.href = "register.html";
 }
 
 //Saves the information of a user for easy access later
 function saveCookie()
 {
-	let minutes = 20;
-	let date = new Date();
-	date.setTime(date.getTime()+(minutes*60*1000));	
-	document.cookie = "firstName=" + firstName + ",lastName=" + lastName + ",userId=" + userId + ";expires=" + date.toGMTString();
+        let minutes = 20;
+        let date = new Date();
+        date.setTime(date.getTime()+(minutes*60*1000));
+        document.cookie = "firstName=" + firstName + ",lastName=" + lastName + ",userId=" + userId + ";expires=" + date.toGMTString();
 }
 
 function readCookie()
 {
-	userId = -1;
-	let data = document.cookie;
-	let splits = data.split(",");
-	for(var i = 0; i < splits.length; i++) 
-	{
-		let thisOne = splits[i].trim();
-		let tokens = thisOne.split("=");
-		if( tokens[0] == "firstName" )
-		{
-			firstName = tokens[1];
-		}
-		else if( tokens[0] == "lastName" )
-		{
-			lastName = tokens[1];
-		}
-		else if( tokens[0] == "userId" )
-		{
-			userId = parseInt( tokens[1].trim() );
-		}
-	}
-	
-	if( userId < 0 )
-	{
-		window.location.href = "index.html";
-	}
-	else
-	{
-//		document.getElementById("userName").innerHTML = "Logged in as " + firstName + " " + lastName;
-	}
+        userId = -1;
+        let data = document.cookie;
+        let splits = data.split(",");
+        for(var i = 0; i < splits.length; i++)
+        {
+                let thisOne = splits[i].trim();
+                let tokens = thisOne.split("=");
+                if( tokens[0] == "firstName" )
+                {
+                        firstName = tokens[1];
+                }
+                else if( tokens[0] == "lastName" )
+                {
+                        lastName = tokens[1];
+                }
+                else if( tokens[0] == "userId" )
+                {
+                        userId = parseInt( tokens[1].trim() );
+                }
+        }
+
+        if( userId < 0 )
+        {
+                window.location.href = "index.html";
+        }
+        else
+        {
+//              document.getElementById("userName").innerHTML = "Logged in as " + firstName + " " + lastName;
+        }
 }
 
 //Logs the user out of the website
 //Logs the user out of the website
 function doLogout()
 {
-	userId = 0;
-	firstName = "";
-	lastName = "";
-	document.cookie = "firstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-	window.location.href = "index.html";
+        userId = 0;
+        firstName = "";
+        lastName = "";
+        document.cookie = "firstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+        window.location.href = "index.html";
 }
 
 // Adds a Contact to a user's list of contacts
@@ -253,19 +253,16 @@ function doLogout()
 function addContact()
 {
 
-	// Upon click, open modal (Toggle)
 
-	//Obtains the data needed for a new contact
-	let addFirstN = document.getElementById("addFirstName").value;
-	let addLastN = document.getElementById("addLastName").value;
-	let addPhoneN = document.getElementById("addPhoneNum").value;
-	let addEmail = document.getElementById("addE-mail").value;
+        //Obtains the data needed for a new contact
+        let addFirstN = document.getElementById("addFirstName").value;
+        let addLastN = document.getElementById("addLastName").value;
+        let addEmail = document.getElementById("addEmail").value;
+        let addPhoneN = document.getElementById("addPhoneNumber").value;
 
-	let addIndex = document.getElementById("azure-index");
-	
-	//Resets the value in contactAddResult to display ""
-	//In essence, removes any error codes if any are present
-	// document.getElementById("contactAddResult").innerHTML = "";
+        //Resets the value in contactAddResult to display ""
+        //In essence, removes any error codes if any are present
+        // document.getElementById("contactAddResult").innerHTML = "";
 
 	//Stores information as an object key-value pair for parsing into a JSON
 	let tmp =
@@ -278,24 +275,36 @@ function addContact()
 	};
 
 	let jsonPayload = JSON.stringify( tmp );
+        //Stores information as an object key-value pair for parsing into a JSON
+        //Obtain url by combining the base, php, and file extension
+        let url = urlBase + '/AddContacts.' + extension;
 
-	//Obtain url by combining the base, php, and file extension
-	let url = urlBase + '/AddContacts.' + extension;
-	
-	//Sends the request to add the Contact to the database
-	//If successful, contact is properly added for the user
-	//If not, returns an error
-	let xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
-	{
-		xhr.onreadystatechange = function() 
-		{
-			if (this.readyState == 4 && this.status == 200) 
-			{
-				document.getElementById("contactAddResult").innerHTML = "Contact has been added";
-				loadContacts();
+        //Sends the request to add the Contact to the database
+        //If successful, contact is properly added for the user
+        //If not, returns an error
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        try
+        {
+                xhr.onreadystatechange = function()
+                {
+                        if (this.readyState == 4 && this.status == 200)
+                        {
+                                document.getElementById("contactAddResult").innerHTML = "Contact has been added";
+                                // reset form and close modal if present
+                                // try {
+                                //         var form = document.getElementById("addContactForm");
+                                //         if (form) form.reset();
+                                //         var modalEl = document.getElementById('addContactModal');
+                                //         if (modalEl && typeof bootstrap !== 'undefined') {
+                                //                 var modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                                //                 modal.hide();
+                                //         }
+                                // } catch(e) {}
+
+                                // loads contacts for specific user
+                                loadContacts();
 				// reset form and close modal if present
 				try {
 					var form = document.getElementById("addContactForm");
@@ -309,54 +318,55 @@ function addContact()
 				
 				// loads contacts for specific user
 				loadContacts();
-			}
-		};
-		xhr.send(jsonPayload);
+                        }
+                };
+                xhr.send(jsonPayload);
 
-	}
-	catch(err)
-	{
+
+        }
+        catch(err)
+        {
 		document.getElementById("contactAddResult").innerHTML = err.message;
-		document.getElementById("contactAddResult").innerHTML = err.message;
-	}
-	
+                document.getElementById("contactAddResult").innerHTML = err.message;
+        }
+
 }
 
 //Grabs the contacts of a user, displaying them on the table
 function loadContacts()
 {
     //Send an empty search to grab all contacts
-	let tmp =
-	{
+        let tmp =
+        {
         search: "",
         userId: userId
     };
 
     //Parse it into a JSON
-	let jsonPayload = JSON.stringify(tmp);
+        let jsonPayload = JSON.stringify(tmp);
 
     //Obtains url, sends a request to recieve user's contacts, and returns successfully or with an error
-	let url = urlBase + '/GetContacts.' + extension;
+        let url = urlBase + '/GetContacts.' + extension;
     let xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 
     //Returns the user's contacts, filling in the table
-	try
-	{
+        try
+        {
         xhr.onreadystatechange = function ()
-		{
+                {
             if (this.readyState == 4 && this.status == 200)
-			{
+                        {
                 let jsonObject = JSON.parse(xhr.responseText);
                 if (jsonObject.error)
-				{
+                                {
                     console.log(jsonObject.error);
                     return;
                 }
                 let text = "<table class='azure-index' border='1'>"
                 for (let i = 0; i < jsonObject.results.length; i++)
-				{
+                                {
                     cids[i] = jsonObject.results[i].ID
                     text += "<tr id='row" + i + "'>"
                     text += "<td id='first_Name" + i + "'><span>" + jsonObject.results[i].FirstName + "</span></td>";
@@ -374,8 +384,8 @@ function loadContacts()
         };
         xhr.send(jsonPayload);
     }
-	catch (err)
-	{
+        catch (err)
+        {
         document.getElementById("contactSearchResult").innerHTML = err.message;
     }
 }
@@ -393,7 +403,7 @@ function editContact(id)
     var mod_email = consEmail.innerText;
     var mod_phone = consPhone.innerText;
 
-	consFirstName.innerHTML = "<input type='text' id='fname_text" + id + "' value='" + mod_fname + "'>";
+        consFirstName.innerHTML = "<input type='text' id='fname_text" + id + "' value='" + mod_fname + "'>";
     consLastName.innerHTML = "<input type='text' id='lname_text" + id + "' value='" + mod_lname + "'>";
     consEmail.innerHTML = "<input type='text' id='email_text" + id + "' value='" + mod_email + "'>";
     consPhone.innerHTML = "<input type='text' id='phone_text" + id + "' value='" + mod_phone + "'>"
@@ -414,13 +424,13 @@ function saveChangedContact(rownum)
     document.getElementById("phone" + rownum).innerHTML = phone_val;
 
     let tmp =
-	{
+        {
         firstName: fname_val,
         lastName: lname_val,
         phone: phone_val,
         email: email_val,
         contactId: conid_val,
-		userId: userId
+                userId: userId
     };
 
     let jsonPayload = JSON.stringify(tmp);
@@ -431,19 +441,19 @@ function saveChangedContact(rownum)
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
     try
-	{
+        {
         xhr.onreadystatechange = function ()
-		{
+                {
             if (this.readyState == 4 && this.status == 200)
-				{
+                                {
                 document.getElementById("contactUpdateResult").innerHTML = "Contact has been updated.";
                 loadContacts();
             }
         };
         xhr.send(jsonPayload);
     }
-	catch (err)
-	{
+        catch (err)
+        {
         document.getElementById("contactUpdateResult").innerHTML = err.message;
     }
 }
@@ -452,22 +462,22 @@ function saveChangedContact(rownum)
 function deleteContact(rowNum)
 {
     // Attains the first and last name of the contact as well as their id on the selected row
-	// bFname and bLname are created to avoid any trash data
+        // bFname and bLname are created to avoid any trash data
 
-	var fname_val = document.getElementById("first_Name" + rowNum).innerText;
+        var fname_val = document.getElementById("first_Name" + rowNum).innerText;
     var lname_val = document.getElementById("last_Name" + rowNum).innerText;
     bFname = fname_val.substring(0, fname_val.length);
     bLname = lname_val.substring(0, lname_val.length);
-	var conId = cids[rowNum]
-    
-	//Asks the user for confirmation that the selected contact will be deleted
-	let check = confirm(bFname + ' ' + bLname + ' will be removed from the crew. Is this ok?');
+        var conId = cids[rowNum]
+
+        //Asks the user for confirmation that the selected contact will be deleted
+        let check = confirm(bFname + ' ' + bLname + ' will be removed from the crew. Is this ok?');
     if (check === true)
-	{
+        {
         //The following is the usual procedure for requests to the server
-		document.getElementById("row" + rowNum + "").outerHTML = "";
+                document.getElementById("row" + rowNum + "").outerHTML = "";
         let tmp =
-		{
+                {
             contactId: conId,
             userId: userId
         };
@@ -480,19 +490,19 @@ function deleteContact(rowNum)
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
         try
-		{
+                {
             xhr.onreadystatechange = function ()
-			{
+                        {
                 if (this.readyState == 4 && this.status == 200)
-				{
+                                {
                     document.getElementById("contactDeleteResult").innerHTML = "Contact has been deleted.";
                     loadContacts();
                 }
             };
             xhr.send(jsonPayload);
         }
-		catch (err)
-		{
+                catch (err)
+                {
             document.getElementById("contactDeleteResult").innerHTML = err.message;
         }
     };
@@ -504,45 +514,41 @@ function deleteContact(rowNum)
 // Code currently taken from 4331paradise.com project, will be adjusted to work for our purposes
 function searchContacts()
 {
-    //Takes the text that is inputted into the search field and strengthens it 
-	const content = document.getElementById("searchText");
+    //Takes the text that is inputted into the search field and strengthens it
+        const content = document.getElementById("searchText");
     const selections = content.value.toUpperCase().split(' ');
-    
-	//Takes the table that is showing the contacts and prepares to grab its elements
-	const table = document.getElementById("contacts");
+
+        //Takes the table that is showing the contacts and prepares to grab its elements
+        const table = document.getElementById("contacts");
     const tr = table.getElementsByTagName("tr");// Table Row
 
     //What this section does is check if what is inputted into the search field matches with a first or last name of every row in the table
-	//Will be changed to also allow for searching with phone numbers and emails
-	for (let i = 0; i < tr.length; i++)
-	{
+        //Will be changed to also allow for searching with phone numbers and emails
+        for (let i = 0; i < tr.length; i++)
+        {
         const td_fn = tr[i].getElementsByTagName("td")[0]; // Table Data: First Name
         const td_ln = tr[i].getElementsByTagName("td")[1]; // Table Data: Last Name
 
         //According to CoPilot, this if statement says that the code will continue if both first and last name fields are filled for that row
-		if (td_fn && td_ln)
-		{
+                if (td_fn && td_ln)
+                {
             //After checking that the two names exist, it'll display the row if either name is a hit with the search input
-			//It starts by hiding the row; if a match is found, then it will unhide it
-			const txtValue_fn = td_fn.textContent || td_fn.innerText;
+                        //It starts by hiding the row; if a match is found, then it will unhide it
+                        const txtValue_fn = td_fn.textContent || td_fn.innerText;
             const txtValue_ln = td_ln.textContent || td_ln.innerText;
             tr[i].style.display = "none";
 
             for (selection of selections)
-			{
+                        {
                 if (txtValue_fn.toUpperCase().indexOf(selection) > -1)
-				{
-					tr[i].style.display = "";
+                                {
+                                        tr[i].style.display = "";
                 }
                 if (txtValue_ln.toUpperCase().indexOf(selection) > -1)
-				{
+                                {
                     tr[i].style.display = "";
                 }
             }
         }
     }
-}
-
-function addContactsModal() {
-	
 }
