@@ -34,7 +34,7 @@ function doLogin()
 //	var tmp = {login:login,password:hash}; 
 
 	// Parses tmp into a JSON 
-	let jsonPayload = JSON.stringify( tmp );0
+	let jsonPayload = JSON.stringify( tmp );
 	// ----
 	// Here we grab urlBase + php file + file extension
 	let url = urlBase + '/Login.' + extension;
@@ -96,6 +96,7 @@ function doLogin()
 //This function is very similar to doLogin(), with some key differences
 function doRegister()
 {
+	
 	// Reassigns variables for this function's scope
 	userId = 0;
 	firstName = "";
@@ -153,10 +154,17 @@ function doRegister()
 
 				// Gets the USERID from the server response
 				userId = jsonObject.id;
+
+				// Handle registration errors (e.g., user already exists)
+				if (userId < 1 || (jsonObject.error && jsonObject.error.length > 0))
+				{
+					document.getElementById("registerResult").innerHTML = jsonObject.error || "Registration failed";
+					return;
+				}
 				
 				// Adds the user into the database
 				document.getElementById("registerResult").innerHTML = "User added, redirecting...";
-				
+
 				// Retrives the first and last name of user if successful
 				firstName = jsonObject.firstName;
                 lastName = jsonObject.lastName;
@@ -229,6 +237,7 @@ function readCookie()
 }
 
 //Logs the user out of the website
+//Logs the user out of the website
 function doLogout()
 {
 	userId = 0;
@@ -243,15 +252,20 @@ function doLogout()
 // Should theoretically accept First Name, Last Name, Phone Number, and Email as valid inputs
 function addContact()
 {
+
+	// Upon click, open modal (Toggle)
+
 	//Obtains the data needed for a new contact
 	let addFirstN = document.getElementById("addFirstName").value;
 	let addLastN = document.getElementById("addLastName").value;
 	let addPhoneN = document.getElementById("addPhoneNum").value;
 	let addEmail = document.getElementById("addE-mail").value;
+
+	let addIndex = document.getElementById("azure-index");
 	
 	//Resets the value in contactAddResult to display ""
 	//In essence, removes any error codes if any are present
-	document.getElementById("contactAddResult").innerHTML = "";
+	// document.getElementById("contactAddResult").innerHTML = "";
 
 	//Stores information as an object key-value pair for parsing into a JSON
 	let tmp =
@@ -262,6 +276,7 @@ function addContact()
 		email: addEmail,
 		phone: addPhoneN
 	};
+
 	let jsonPayload = JSON.stringify( tmp );
 
 	//Obtain url by combining the base, php, and file extension
@@ -281,12 +296,27 @@ function addContact()
 			{
 				document.getElementById("contactAddResult").innerHTML = "Contact has been added";
 				loadContacts();
+				// reset form and close modal if present
+				try {
+					var form = document.getElementById("addContactForm");
+					if (form) form.reset();
+					var modalEl = document.getElementById('addContactModal');
+					if (modalEl && typeof bootstrap !== 'undefined') {
+						var modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+						modal.hide();
+					}
+				} catch(e) {}
+				
+				// loads contacts for specific user
+				loadContacts();
 			}
 		};
 		xhr.send(jsonPayload);
+
 	}
 	catch(err)
 	{
+		document.getElementById("contactAddResult").innerHTML = err.message;
 		document.getElementById("contactAddResult").innerHTML = err.message;
 	}
 	
@@ -324,7 +354,7 @@ function loadContacts()
                     console.log(jsonObject.error);
                     return;
                 }
-                let text = "<table border='1'>"
+                let text = "<table class='azure-index' border='1'>"
                 for (let i = 0; i < jsonObject.results.length; i++)
 				{
                     cids[i] = jsonObject.results[i].ID
@@ -511,4 +541,8 @@ function searchContacts()
             }
         }
     }
+}
+
+function addContactsModal() {
+	
 }
