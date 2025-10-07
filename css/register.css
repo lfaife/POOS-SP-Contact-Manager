@@ -1,0 +1,10 @@
+
+#registerResult {
+    display: block;
+    font-size: 12px;
+    width: 100%;
+    text-align: center;
+    margin: 10px 0;
+    font-family: 'Ubuntu', sans-serif;
+    color: #0a5ed4;
+}
