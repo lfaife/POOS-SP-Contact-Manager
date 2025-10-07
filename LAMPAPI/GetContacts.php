@@ -4,6 +4,7 @@
     
     $searchResults = "";
     $searchCount = 0;
+
     // Connect to database
     $conn = new mysqli("143.110.151.237", "POOS_db", "Small_2025_Project", "poos_app");
     if ($conn->connect_error) 
@@ -38,6 +39,7 @@
             returnWithInfo( $searchResults );
         }
     }
+    
     // Decode Json from request body
     function getRequestInfo()
     {
