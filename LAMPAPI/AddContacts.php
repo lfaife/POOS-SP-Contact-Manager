@@ -18,6 +18,7 @@
         $contactId = $conn->insert_id;
         returnWithInfo($contactId, $inData["firstName"], $inData["lastName"], $inData["email"], $inData["phone"]);
     }
+    
     // Decode Json from request body
     function getRequestInfo()
     {
