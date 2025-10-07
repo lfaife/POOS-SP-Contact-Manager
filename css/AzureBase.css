@@ -1,3 +1,48 @@
+<<<<<<< HEAD
+.azure-container {
+    margin: 150px auto 0 auto; /* center horizontally */
+    font-size: 30px;
+    width: 35vw;
+    max-width: 50vw;
+    background-image: linear-gradient(180deg, var(--bg-light), var(--bg));
+    border: 1px solid var(--border);
+    /* depth */
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.06),
+        inset 0 12px 24px rgba(0,0,0,0.20),
+        0 8px 24px rgba(0,0,0,0.35);
+    border-radius: 25px;
+}
+
+.azure-pill {
+    width: 100%;
+    max-width: 423px;
+    height: 50px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+    border-radius: 9999px;
+}
+
+/* Group pills in a row with gaps */
+.azure-pill-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+/* Make the three divs inside the login card same width */
+.azure-container > .p-3 {
+    width: 100%;
+}
+
+/* Index card similar width to container, with padding around contents */
+.azure-indexCard {
+    width: 100%;
+    min-height: 120px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+=======
 * {
     margin: 0;
     padding: 0;
@@ -9,4 +54,5 @@ body {
 }
 
 .Azure-container {
+>>>>>>> 5b9c54237ff4a3ce8a710b6fe4771093f8a47c55
 }
