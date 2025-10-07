@@ -15,88 +15,207 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="Contact Manager" content="AzureBase contact manager system for COP 4331">
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="css/styles.css" rel="stylesheet">
-    <link href="css/AzureBase.css" rel="stylesheet"> 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="css/AzureBase.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <script type="text/javascript" src="js/code.js"></script>
 </head>
+
 <body>
     <main>
-        
-            <!-- Grid layout for Responsive Design -->     
-            <div class="row justify-content-center">
-                <div class="col-12 col-md-6 col-lg-4">
 
-            
-                    <!-- Login Card -->
-                    <section>
-                        <div class="azure-container">
-							<!-- Pill Group 1 -->
-							<div class="p-3">
-								<div class="azure-pill-group">
-									 <input type="text" class="azure-pill" placeholder="Search" aria-label="Search contacts" />
-									 <button type="submit" class="azure-pill d-flex justify-content-center" data-bs-toggle="modal" data-bs-target="#addContactModal"> + Add Crew Member</button>
-								</div>
-							</div>
+        <!-- Grid layout for Responsive Design -->
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6 col-lg-4">
 
-							<!-- Index Card -->
-							<div class="p-3">
-								<div id="azure-indexCard" class="azure-indexCard">
-									<div class="azure-index">
-										<div id="ContactsTable"></div>
-									</div>
-								</div>
-							</div>
+                <!-- Modal -->
+                <div class="modal fade" id="ContactModal" tabindex="-1" aria-labelledby="ContactModal"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header d-flex flex-column">
+                                 <h1 class="modal-title fs-5 mb-3" id="ContactModal">Add to the AzureBase Index</h1>
+                                <span class="modal-subtitle">Add a fellow Crew’s number</span>
+                            </div>
+                            <!-- Form -->
+                            <form class="px-3 mb-3">
+                                <div class="modal-body">
+                                    <div>
+                                        <label for="addFirstName" class="form-label">FirstName</label>
+                                        <input type="text" class="form-control" id="addFirstName" name="addFirstName"
+                                            >
+                                    </div>
+
+                                    <div>
+                                        <label for="addLastName" class="form-label">Lastname</label>
+                                        <input type="text" class="form-control" id="addLastName" name="addLastName"
+                                            >
+                                    </div>
+
+                                    <div>
+                                        <label for="addEmail" class="form-label">Email</label>
+                                        <input type="text" class="form-control" id="addEmail" name="addEmail"
+                                            >
+                                    </div>
+
+                                    <div>
+                                        <label for="addPhoneNum" class="form-label">PhoneNumber</label>
+                                        <input type="text" class="form-control" id="addPhoneNumber" name="addPhoneNum"
+                                            >
+                                    </div>
+
+                                    <!-- Where errors go -->
+                                    <span id="contactAddResult"></span>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" onclick="addContact()">Add new Crew member</button>
+                                </div>
+                            </form>
                         </div>
-                    </section>
+                    </div>
                 </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="EditModal" tabindex="-1" aria-labelledby="EditModal"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+
+                                <h1 class="modal-title fs-5" id="EditModal">Refine the AzureBase Record</h1>
+                                <span class="modal-subtitle">Edit your crew member Contacts below</span>
+                                
+                            </div>
+                            
+                            <!-- Form -->
+                            <form class="px-3 mb-3">
+                                <div class="modal-body">
+                                    <div>
+                                        <label for="addFirstName" class="form-label">FirstName</label>
+                                        <input type="text" class="form-control" id="addFirstName" name="addFirstName"
+                                            >
+                                    </div>
+
+                                    <div>
+                                        <label for="addLastName" class="form-label">Lastname</label>
+                                        <input type="text" class="form-control" id="addLastName" name="addLastName"
+                                            >
+                                    </div>
+
+                                    <div>
+                                        <label for="addEmail" class="form-label">Email</label>
+                                        <input type="text" class="form-control" id="addEmail" name="addEmail"
+                                            >
+                                    </div>
+
+                                    <div>
+                                        <label for="addPhoneNum" class="form-label">PhoneNumber</label>
+                                        <input type="text" class="form-control" id="addPhoneNumber" name="addPhoneNumber"
+                                            >
+                                    </div>
+
+                                    <!-- Where errors go -->
+                                    <span id="contactAddResult"></span>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" onclick="EditContact()">Add new Crew member</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Edit Modal -->
+                <div class="modal fade" id="EditModal" tabindex="-1" aria-labelledby="EditModal"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="EditModal">Refine the AzureBase Record</h1>
+                                <span class="modal-subtitle">Enter contact information below</span>
+                            </div>
+                            <!-- Form -->
+                            <form class="px-3 mb-3">
+                                <div class="modal-body">
+                                    <div>
+                                        <label for="addFirstName" class="form-label">FirstName</label>
+                                        <input type="text" class="form-control" id="addFirstName" name="addFirstName"
+                                            >
+                                    </div>
+
+                                    <div>
+                                        <label for="addLastName" class="form-label">Lastname</label>
+                                        <input type="text" class="form-control" id="addLastName" name="addLastName"
+                                            >
+                                    </div>
+
+                                    <div>
+                                        <label for="addEmail" class="form-label">Email</label>
+                                        <input type="text" class="form-control" id="addEmail" name="addEmail"
+                                            >
+                                    </div>
+
+                                    <div>
+                                        <label for="addPhoneNum" class="form-label">PhoneNumber</label>
+                                        <input type="text" class="form-control" id="addPhoneNumber" name="addPhoneNum"
+                                            >
+                                    </div>
+
+                                    <!-- Where errors go -->
+                                    <span id="contactAddResult"></span>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" onclick="EditContact()">Add new Crew member</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Login Card -->
+                <section>
+                    <div class="azure-container">
+
+                        <!-- Pill Group 1 -->
+                        <div class="p-3">
+                            <div class="azure-pill-group">
+                                <input type="text" class="azure-pill" placeholder="Search"
+                                    aria-label="Search contacts" />
+                                <button type="submit" class="azure-pill d-flex justify-content-center"
+                                    data-bs-toggle="modal" data-bs-target="#ContactModal"> + Add Crew Member</button>
+                            </div>
+                        </div>
+
+                        <!-- Index Card -->
+                        <div class="p-3">
+                            <div id="azure-indexCard" class="azure-indexCard">
+                                <div id="azure-index"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
-
-		<!-- Add Contact Modal -->
-		<div class="modal fade" id="addContactModal" tabindex="-1" aria-labelledby="addContactModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="addContactModalLabel">Add Crew Member</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						<form id="addContactForm" onsubmit="event.preventDefault(); addContact();">
-							<div class="mb-3">
-								<label for="addFirstName" class="form-label">First Name</label>
-								<input type="text" id="addFirstName" class="form-control" placeholder="First name" required>
-							</div>
-							<div class="mb-3">
-								<label for="addLastName" class="form-label">Last Name</label>
-								<input type="text" id="addLastName" class="form-control" placeholder="Last name" required>
-							</div>
-							<div class="mb-3">
-								<label for="addPhoneNum" class="form-label">Phone</label>
-								<input type="text" id="addPhoneNum" class="form-control" placeholder="Phone number" required>
-							</div>
-							<div class="mb-3">
-								<label for="addE-mail" class="form-label">Email</label>
-								<input type="email" id="addE-mail" class="form-control" placeholder="Email" required>
-							</div>
-							<div id="contactAddResult" class="text-danger small"></div>
-						</form>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-						<button type="submit" form="addContactForm" class="btn btn-primary">Save</button>
-					</div>
-				</div>
-			</div>
-		</div>
-
-	</main>
-
         </div>
+    </main>
 
     </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>
