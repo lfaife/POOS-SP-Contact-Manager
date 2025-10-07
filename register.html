@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <title>Contact Manager</title>
     <meta charset="UTF-8">
@@ -17,10 +18,10 @@
             <div class="row justify-content-center">
                 <div class="col-12 col-md-6 col-lg-4">
                     
-                     <!-- Login Card -->
+                     <!-- Register Card -->
                     <section>
-                        <div class="container">   
-                            <div id="login-card">
+                        <div class="container py-4">   
+                            <div id="register-card" class="form-scope">
                                 
                                 <!-- Header -->     
                                 <header class="gap-3">
@@ -29,39 +30,34 @@
                                 </header>
     
                                 <!-- Form -->     
-                                <form action="/login" method="POST" class="p-3 mb-3">
+                                <form class="px-3 mb-3">
                                     <div>
-                                        <label for="firstname" class="form-label">FirstName</label>
-                                        <input type="text" class="form-control" id="firstname" name="firstname">
+                                        <label for="firstname" class="form-label gap-3">FirstName</label>
+                                        <input type="text" class="form-control" id="firstName" name="firstname" autocomplete="given-name">
                                     </div>
     
                                     <div>
-                                        <label for="lastname" class="form-label">Lastname</label>
-                                        <input type="text" class="form-control" id="lastname" name="lastname">
+                                        <label for="lastname" class="form-label gap-3">Lastname</label>
+                                        <input type="text" class="form-control" id="lastName" name="lastname" autocomplete="family-name">
                                     </div>
     
                                     <div>
-                                        <label for="username" class="form-label">Username</label>
-                                        <input type="text" class="form-control" id="username" name="username">
+                                        <label for="username" class="form-label gap-3">Username</label>
+                                        <input type="text" class="form-control" id="registerName" name="username" autocomplete="username">
                                     </div>
     
                                     <div>
-                                        <label for="password" class="form-label">Password</label>
-                                        <input type="password" class="form-control" id="password" name="password">
+                                        <label for="password" class="form-label gap-3">Password</label>
+                                        <input type="password" class="form-control" id="registerPassword" name="password" autocomplete="new-password">
                                     </div>
     
                                     <!-- Where errors go -->     
-                                    <span id="loginResult"></span>
+                                    <span id="registerResult"></span>
     
-                                    <button type="button" id="loginButton" class="buttons" onclick="doLogin();"> Meet the Crew </button>
+                                    <button type="button" id="registerButton" class="buttons" onclick="doRegister();"> Meet the Crew </button>
                                 </form>
                                 
-                                <footer class="footer2 h5 ">
-                                    <div class="d-flex justify-content-between">
-                                        <p class="crew">Not a Crew Member?</p>
-                                        <a href="/register.html" class="join">Join Today</a>
-                                    </div>
-                                </footer>
+                              
                             </div>
                         </div>
         
