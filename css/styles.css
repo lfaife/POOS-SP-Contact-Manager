@@ -1,38 +1,58 @@
+/* Shared Styles - Used across all pages */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 :root {
---bg-dark: oklch(0.1 0.055 250);
---bg: oklch(0.15 0.055 250);
---bg-light: oklch(0.2 0.055 250);
---text: oklch(0.96 0.1 250);
-/* --text-muted: oklch(0.76 0.1 250); */
-/* --highlight: oklch(0.5 0.11 250); */
-/* --border: oklch(0.4 0.11 250); */
-/* --border-muted: oklch(0.3 0.11 250); */
---primary: oklch(0.76 0.11 250);
---secondary: oklch(0.76 0.11 70);
---danger: oklch(0.7 0.11 30);
-/* --info: oklch(0.7 0.11 260); */
+    --bg-dark: oklch(0.1 0.055 250);
+    --bg: oklch(0.15 0.055 250);
+    --bg-light: oklch(0.2 0.055 250);
+    --border: oklch(0.4 0.11 250);
+    --border-muted: oklch(0.3 0.11 250);
+    --danger: oklch(0.7 0.11 30);
 }
 
-body 
-{
-    background-color: blue;
-    background-image: linear-gradient(135deg, var(--bg-dark), var(--bg-light));
+
+body {
+    background: linear-gradient(135deg, var(--bg-dark), var(--bg-light));
+    min-height: 100vh;
+    background-attachment: fixed;
 }
 
-.container
-{
+.container {
     margin-top: 150px;
     font-size: 30px;
-    width: 90%;
+    width: 75% !important;
     max-width: 600px;
-    padding: 40px;
-    background-color: var(--bg-light);
-    border: 4px solid var(--border-muted);;
+    background-image: linear-gradient(180deg, var(--bg-light), var(--bg));
+    border: 1px solid var(--border);
+    /* depth */
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.06),
+        inset 0 12px 24px rgba(0,0,0,0.20),
+        0 8px 24px rgba(0,0,0,0.35);
     border-radius: 25px;
 }
 
+/* Shared narrow scope for auth forms (title, inputs, buttons, footer links) */
+.form-scope {
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+.form-scope .form-label {
+    margin-left: 0;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #FFFFFF;
+    font-family: 'Ubuntu', sans-serif;
+    display: block;
+}
+
 header {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 #inner-title {
@@ -42,7 +62,7 @@ header {
     text-align: center;
     margin-bottom: 10px;
     font-family: 'Ubuntu', sans-serif;
-    color: #FFFFFF;
+    color: white;
     font-weight: 600;
 }
 
@@ -57,38 +77,26 @@ header {
     opacity: 0.8;
 }
 
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-label {
-    display: block;
-    font-size: 16px;
-    color: #FFFFFF;
-    margin-bottom: 8px;
-    margin-left: 15px;
-    font-family: 'Ubuntu', sans-serif;
-}
-
 input[type="text"], input[type="password"] {
     border-radius: 50px;
     text-align: left;
     text-indent: 20px;
     width: 100%;
-    height: 60px;
-    margin-left: 0;
-    margin-bottom: 0;
-    color: #B79A9A;
-    background-color: #242345;
+    height: 50px;
+    background-color: var(--bg);
     font-family: 'Ubuntu', sans-serif;
-    border: 2px solid #FFFFFF20;
+    border: 1px solid var(--border);
     font-size: 16px;
 }
 
-input[type="text"]::placeholder,
-input[type="password"]::placeholder {
-    color: #B79A9A;
-    opacity: 0.6;
+/* Override focus styling to prevent white background */
+input[type="text"]:focus,
+input[type="password"]:focus {
+    background-color: var(--bg) !important;
+    color: #FFFFFF !important;
+    border: 1px solid var(--border) !important;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 .buttons {
@@ -97,152 +105,16 @@ input[type="password"]::placeholder {
     width: 100%;
     height: 60px;
     margin-left: 0;
-    margin-top: 10px;
+    margin-top: 6px;
     color: #FFFFFF;
-    background-color: #242345;
+    background-color: var(--bg);
     font-family: 'Ubuntu', sans-serif;
     border: none;
     cursor: pointer;
 }
 
 .buttons:hover {
-    background-color: #00d5124f;
+    background-color: var(--bg-light);
     color: #FFFFFF;
     opacity: 0.8;
-}
-
-#loginResult {
-    display: block;
-    font-size: 16px;
-    width: 100%;
-    text-align: center;
-    margin: 15px 0;
-    font-family: 'Ubuntu', sans-serif;
-    color: #ff4444;
-}
-
-.footer2 {
-    width: 100%;
-    margin-top: 30px;
-    text-align: center;
-}
-
-.footer2 p {
-    font-size: 16px;
-    color: #FFFFFF;
-    margin: 0;
-}
-
-.crew {
-    display: inline;
-    opacity: 0.8;
-}
-
-.join {
-    color: #6B9EFF;
-    text-decoration: underline;
-    margin-left: 10px;
-}
-
-.join:hover {
-    color: #8FB4FF;
-}
-
-
-
-#accessUIDiv
-{
-    font-size: 30px;
-    width: 70%;
-    margin-left: 15%;
-    padding: 25px;
-    background-color: #b2b2b2;
-}
-
-
-
-#GoToRegisterButton
-{
-    width: 25.5%;
-    display: inline-block;
-}
-
-#loginDiv, #loginName, #loginPassword, #firstName,
-#lastName, #registerName, #registerPassword, #searchText, 
-#colorText {
-    font-size: 40px;
-}
-
-input[type="text"],input[type="password"]{
-    border-radius: 50px;
-    text-align: left;
-    text-indent: 15px;
-    width: 70%;
-    height: 7.25%;
-    margin-left: 13.5%;
-    margin-bottom: 2%;
-    color: #B79A9A;
-    background-color: #242345;
-    font-family: 'Ubuntu', sans-serif;
-}
-
-#loginResult{
-    display: inline-block;
-    font-size: 24px;
-    width: 90%;
-    height: 2%;
-    text-align: center;
-    margin-left: 5%;
-    margin-bottom: 2%;
-    font-family: 'Ubuntu', sans-serif;
-    color: #95060a;
-}
-
-#registerResult{
-    display: inline-block;
-    font-size: 24px;
-    width: 90%;
-    height: 2%;
-    text-align: center;
-    margin-left: 5%;
-    margin-bottom: 2%;
-    font-family: 'Ubuntu', sans-serif;
-    color: #95060a;
-}
-
-
-#logoutButton{
-    width: 20%;
-    margin-left: 40%;
-}
-
-select{
-    width: 30%;
-    margin-left: 35%;
-    margin-top: 2%;
-    font-size: 0.75em;
-    font-family: 'Ubuntu', sans-serif;
-}
-
-#colorSearchResult{
-    display: none;
-}
-
-#colorAddResult{
-    display: inline-block;
-    font-size: 0.8em;
-    width: 90%;
-    text-align: center;
-    margin-left: 5%;
-    margin-top: 2%;
-    margin-bottom: 1%;
-    font-family: 'Ubuntu', sans-serif;
-    color: #95060a;
-}
-
-
-#login-card {
-    width: 50%;
-    padding: 50px;
-
 }
