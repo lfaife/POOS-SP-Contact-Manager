@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 .azure-container {
     margin: 150px auto 0 auto; /* center horizontally */
     font-size: 30px;
@@ -42,17 +41,5 @@
     background: rgba(255,255,255,0.06);
     border: 1px solid var(--border);
     border-radius: 16px;
-=======
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
 }
 
-body {
-    background: linear-gradient(270deg, #00BFFF, #004080);
-}
-
-.Azure-container {
->>>>>>> 5b9c54237ff4a3ce8a710b6fe4771093f8a47c55
-}
