@@ -192,12 +192,6 @@ function doRegister(event)
 
 }
 
-//Sends the user to the register page
-function gotoRegister()
-{
-        window.location.href = "register.html";
-}
-
 //Saves the information of a user for easy access later
 function saveCookie()
 {
@@ -525,4 +519,49 @@ function doLogout() {
         lastName = "";
         document.cookie = "firstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         window.location.href = "index.html";
+}
+
+// Purely created for testing purposes, creates a sample contact
+function makeContact() {
+        // Build the grid
+        let text = "<div class='azure-grid' role='list'>";
+        
+        // Header row
+        text += "<div class='grid-header' role='row'>" +
+                "<div class='grid-cell grid-head'>First</div>" +
+                "<div class='grid-cell grid-head'>Last</div>" +
+                "<div class='grid-cell grid-head'>Email</div>" +
+                "<div class='grid-cell grid-head'>Phone</div>" +
+                "<div class='grid-cell grid-head'>Actions</div>" +
+                "</div>";
+
+        // Contact rows
+        cids[0] = 0;
+                
+        text += "<div class='grid-row' id='row" + 0 + "' role='listitem'>";
+        text += "<div class='grid-cell' id='first_Name" + 0 + "' data-label='First:'><span>" + "Bryant" + "</span></div>";
+        text += "<div class='grid-cell' id='last_Name" + 0 + "' data-label='Last:'><span>" + "Arteaga" + "</span></div>";
+        text += "<div class='grid-cell' id='email" + 0 + "' data-label='Email:'><span>" + "br307896@ucf.edu" + "</span></div>";
+        text += "<div class='grid-cell' id='phone" + 0 + "' data-label='Phone:'><span>" + "4079527013" + "</span></div>";
+        text += "<div class='grid-cell grid-actions' data-label='Actions:'>";
+        text += "<button type='button' id='edit_button" + 0 + "' class='w3-button w3-circle w3-lime' onclick='editContact(" + 0 + ")' aria-label='Edit contact'>&#9998;</button>";
+        text += "<button type='button' onclick='deleteContact(" + 0 + ")' class='w3-button w3-circle w3-amber' aria-label='Delete contact'>&#128465;</button>";
+        text += "</div>";
+        text += "</div>";
+        
+        cids[1] = 1;
+                
+        text += "<div class='grid-row' id='row" + 1 + "' role='listitem'>";
+        text += "<div class='grid-cell' id='first_Name" + 1 + "' data-label='First:'><span>" + "Brant" + "</span></div>";
+        text += "<div class='grid-cell' id='last_Name" + 1 + "' data-label='Last:'><span>" + "Art" + "</span></div>";
+        text += "<div class='grid-cell' id='email" + 1 + "' data-label='Email:'><span>" + "br3096@ucf.edu" + "</span></div>";
+        text += "<div class='grid-cell' id='phone" + 1 + "' data-label='Phone:'><span>" + "4079257013" + "</span></div>";
+        text += "<div class='grid-cell grid-actions' data-label='Actions:'>";
+        text += "<button type='button' id='edit_button" + 1 + "' class='w3-button w3-circle w3-lime' onclick='editContact(" + 1 + ")' aria-label='Edit contact'>&#9998;</button>";
+        text += "<button type='button' onclick='deleteContact(" + 1 + ")' class='w3-button w3-circle w3-amber' aria-label='Delete contact'>&#128465;</button>";
+        text += "</div>";
+        text += "</div>";
+        
+        text += "</div>";
+        document.getElementById("azure-index").innerHTML = text;
 }
