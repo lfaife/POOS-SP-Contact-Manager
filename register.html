@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <title>Contact Manager</title>
     <meta charset="UTF-8">
@@ -14,7 +12,6 @@
 </head>
 <body>
     <main>
-
             <!-- Grid layout for Responsive Design -->
             <div class="row justify-content-center">
                 <div class="col-12 col-md-6 col-lg-4">
@@ -31,7 +28,7 @@
                                 </header>
 
                                 <!-- Form -->
-                                <form class="px-3 mb-3">
+                                <form onsubmit="doRegister(event)" class="px-3 mb-3">
                                     <div>
                                         <label for="firstname" class="form-label">FirstName</label>
                                         <input type="text" class="form-control" id="firstName" name="firstname" autocomplete="given-name">
@@ -53,9 +50,9 @@
                                     </div>
 
                                     <!-- Where errors go -->
-                                    <span id="registerResult">YES</span>
+                                    <span id="registerResult"></span>
 
-                                    <button type="button" id="registerButton" class="buttons" onclick="doRegister();"> Meet the Crew </button>
+                                    <button type="submit" id="registerButton" class="buttons" onclick="doRegister();"> Meet the Crew </button>
                                 </form>
                                 <footer class="footer2 h5 ">
                                     <div class="form-scope d-flex justify-content-between mx-3">
@@ -63,19 +60,12 @@
                                         <a href="index.html" class="join">Back</a>
                                     </div>
                                 </footer>
-
                             </div>
                         </div>
-
                     </section>
                 </div>
             </div>
-
-    </main>
-
-        </div>
-
-    </div>
+        </main>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
