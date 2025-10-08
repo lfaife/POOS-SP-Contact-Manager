@@ -6,9 +6,9 @@
     $searchCount = 0;
 
     // Connect to database
-    //$conn = new mysqli("143.110.151.237", "POOS_db", "Small_2025_Project", "poos_app");
+    $conn = new mysqli("143.110.151.237", "POOS_db", "Small_2025_Project", "poos_app");
     // Add local connection for testing
-    $conn = new mysqli("localhost", "root", "", "poos_app");
+    // $conn = new mysqli("localhost", "root", "", "poos_app");
     if ($conn->connect_error) 
     {
         returnWithError($conn->connect_error);

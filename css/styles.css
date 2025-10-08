@@ -1,120 +1,160 @@
-/* Shared Styles - Used across all pages */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-:root {
-    --bg-dark: oklch(0.1 0.055 250);
-    --bg: oklch(0.15 0.055 250);
-    --bg-light: oklch(0.2 0.055 250);
-    --border: oklch(0.4 0.11 250);
-    --border-muted: oklch(0.3 0.11 250);
-    --danger: oklch(0.7 0.11 30);
-}
+        :root {
+            --bg: #020a12;
+            --bg-light: #0a1929;
+            --border: #1e4a6f;
+            --border-muted: #0f2d47;
+            --highlight: #004578;
+            --accent: #40d4ff;
+            --text: #cfe8f3;
+        }
 
+        body {
+            background: linear-gradient(to bottom, var(--highlight), var(--bg));
+            min-height: 100vh;
+            background-attachment: fixed;
+        }
 
-body {
-    background: linear-gradient(135deg, var(--bg-dark), var(--bg-light));
-    min-height: 100vh;
-    background-attachment: fixed;
-}
+        .container {
+            margin-top: 150px;
+            font-size: 30px;
+            width: 75% !important;
+            max-width: 600px;
+            background-image: linear-gradient(180deg, var(--bg-light), var(--bg));
+            border: 1px solid var(--border);
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.06),
+                inset 0 12px 24px rgba(0,0,0,0.20),
+                0 8px 24px rgba(0,0,0,0.35);
+            border-radius: 25px;
+        }
 
-.container {
-    margin-top: 150px;
-    font-size: 30px;
-    width: 75% !important;
-    max-width: 600px;
-    background-image: linear-gradient(180deg, var(--bg-light), var(--bg));
-    border: 1px solid var(--border);
-    /* depth */
-    box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.06),
-        inset 0 12px 24px rgba(0,0,0,0.20),
-        0 8px 24px rgba(0,0,0,0.35);
-    border-radius: 25px;
-}
+        .form-scope {
+            max-width: 420px;
+            margin: 0 auto;
+        }
 
-/* Shared narrow scope for auth forms (title, inputs, buttons, footer links) */
-.form-scope {
-    max-width: 420px;
-    margin: 0 auto;
-}
+        .form-scope .form-label {
+            margin-left: 0;
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: var(--text);
+            font-family: 'Ubuntu', sans-serif;
+            display: block;
+        }
 
-.form-scope .form-label {
-    margin-left: 0;
-    margin-bottom: 10px;
-    font-size: 16px;
-    color: #FFFFFF;
-    font-family: 'Ubuntu', sans-serif;
-    display: block;
-}
+        header {
+            margin-bottom: 20px;
+        }
 
-header {
-    margin-bottom: 20px;
-}
+        #inner-title {
+            display: block;
+            font-size: 48px;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 10px;
+            font-family: 'Ubuntu', sans-serif;
+            color: var(--accent);
+            font-weight: 600;
+            text-shadow: 0 0 20px rgba(80, 230, 255, 0.5);
+        }
 
-#inner-title {
-    display: block;
-    font-size: 48px;
-    width: 100%;
-    text-align: center;
-    margin-bottom: 10px;
-    font-family: 'Ubuntu', sans-serif;
-    color: white;
-    font-weight: 600;
-}
+        #inner-text {
+            display: block;
+            font-size: 18px;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 0;
+            font-family: 'Ubuntu', sans-serif;
+            color: var(--text);
+            opacity: 0.8;
+        }
 
-#inner-text {
-    display: block;
-    font-size: 18px;
-    width: 100%;
-    text-align: center;
-    margin-bottom: 0;
-    font-family: 'Ubuntu', sans-serif;
-    color: #FFFFFF;
-    opacity: 0.8;
-}
+        input[type="text"], input[type="password"] {
+            border-radius: 50px;
+            text-align: left;
+            text-indent: 20px;
+            width: 100%;
+            height: 50px;
+            background-color: var(--bg);
+            font-family: 'Ubuntu', sans-serif;
+            border: 1px solid var(--border);
+            font-size: 16px;
+            color: var(--text);
+        }
 
-input[type="text"], input[type="password"] {
-    border-radius: 50px;
-    text-align: left;
-    text-indent: 20px;
-    width: 100%;
-    height: 50px;
-    background-color: var(--bg);
-    font-family: 'Ubuntu', sans-serif;
-    border: 1px solid var(--border);
-    font-size: 16px;
-}
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            background-color: var(--bg) !important;
+            color: var(--text) !important;
+            border: 1px solid var(--accent) !important;
+            outline: none !important;
+            box-shadow: 0 0 0 3px rgba(80, 230, 255, 0.3) !important;
+        }
 
-/* Override focus styling to prevent white background */
-input[type="text"]:focus,
-input[type="password"]:focus {
-    background-color: var(--bg) !important;
-    color: #FFFFFF !important;
-    border: 1px solid var(--border) !important;
-    outline: none !important;
-    box-shadow: none !important;
-}
+        input::placeholder {
+            color: rgba(227, 242, 253, 0.4);
+        }
 
-.buttons {
-    font-size: 24px;
-    border-radius: 50px;
-    width: 100%;
-    height: 60px;
-    margin-left: 0;
-    margin-top: 6px;
-    color: #FFFFFF;
-    background-color: var(--bg);
-    font-family: 'Ubuntu', sans-serif;
-    border: none;
-    cursor: pointer;
-}
+        .buttons {
+            font-size: 24px;
+            border-radius: 50px;
+            width: 100%;
+            height: 60px;
+            margin-left: 0;
+            margin-top: 6px;
+            color: white;
+            background: linear-gradient(135deg, #0078d4, #005a9e);
+            font-family: 'Ubuntu', sans-serif;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
 
-.buttons:hover {
-    background-color: var(--bg-light);
-    color: #FFFFFF;
-    opacity: 0.8;
-}
+        .buttons:hover {
+            background: linear-gradient(135deg, #005a9e, #004578);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 120, 212, 0.5);
+        }
+
+        .footer2 {
+            padding: 20px 0;
+        }
+
+        .crew {
+            color: var(--text);
+            opacity: 0.7;
+            margin: 0;
+            font-size: 14px;
+            font-family: 'Ubuntu', sans-serif;
+        }
+
+        .join {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 14px;
+            font-family: 'Ubuntu', sans-serif;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .join:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+            text-shadow: 0 0 10px rgba(80, 230, 255, 0.6);
+        }
+
+        #loginResult {
+            display: block;
+            color: #ff6b6b;
+            font-size: 14px;
+            margin-top: 10px;
+            text-align: center;
+            font-family: 'Ubuntu', sans-serif;
+        }

@@ -3,17 +3,21 @@ const urlBase = 'http://cop4331-azurebase-contact-manager.com/LAMPAPI';
 const extension = 'php';
 
 // Sets the starting data of these values across all functions
-let userId = 0;
+let userID = 0;
 let firstName = "";
 let lastName = "";
 const cids = [];
 
 function doLogin(event)
 {
+    if (event)
+    {
         event.preventDefault();
+    }
+       
 
         // Reassigns variables for this function scrope
-        userId = 0;
+        userID = 0;
         firstName = "";
         lastName = "";
 
@@ -59,15 +63,14 @@ function doLogin(event)
                         // # 4 means request is complete and status of 200 means response was successful
                         if (this.readyState == 4 && this.status == 200)
                         {
-                                const data = json.parse( json.response )
                                 // converts the JSON response from our given form data back into a JS object
                                 let jsonObject = JSON.parse( xhr.responseText );
 
-                                // Gets the USERID from the server response
-                                userId = jsonObject.id;
+                                // Gets the userID from the server response
+                                userID = jsonObject.id;
 
                                 // Sets an error msg for loginResult for a failed login attempt & sets why
-                                if( userId < 1 )
+                                if( userID < 1 )
                                 {
                                         document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
                                         return; // exits from event handler funciton
@@ -82,6 +85,11 @@ function doLogin(event)
 
                                 // Sends user to next page
                                 window.location.href = "contacts.html";
+
+                                document.addEventListener("DOMContentLoaded", function() {
+                                    readCookie();
+                                    // loadContacts();
+                                })
                         }
                 };
                 // What sends request with JSON data container username / password
@@ -99,10 +107,13 @@ function doLogin(event)
 //This function is very similar to doLogin(), with some key differences
 function doRegister(event)
 {
+    if (event)
+    {
         event.preventDefault();
+    }
 	
 	// Reassigns variables for this function's scope
-	userId = 0;
+	userID = 0;
 	firstName = "";
 	lastName = "";
 	
@@ -122,7 +133,7 @@ function doRegister(event)
         {
                 firstName: firstN,
                 lastName: lastN,
-                login: register,
+                register: register,
                 password: password
         };
 
@@ -153,44 +164,43 @@ function doRegister(event)
                         // # 4 means request is complete and status of 200 means response was successful
                         if (this.readyState == 4 && this.status == 200)
                         {
-                                // converts the JSON response from our given form data back into a JS object
-                                let jsonObject = JSON.parse( xhr.responseText );
+                            // converts the JSON response from our given form data back into a JS object
+                            let jsonObject = JSON.parse( xhr.responseText );
 
-				// Gets the USERID from the server response
-				userId = jsonObject.id;
+                            // Gets the userID from the server response
+                            userID = jsonObject.id;
 
-				// Handle registration errors (e.g., user already exists)
-				if (userId < 1 || (jsonObject.error && jsonObject.error.length > 0))
-				{
-					document.getElementById("registerResult").innerHTML = jsonObject.error || "Registration failed";
-					return;
-				}
-				
-				// Adds the user into the database
-				document.getElementById("registerResult").innerHTML = "User added, redirecting...";
+                            // Handle registration errors (e.g., user already exists)
+                            if (userID < 1 || (jsonObject.error && jsonObject.error.length > 0))
+                            {
+                                document.getElementById("registerResult").innerHTML = jsonObject.error || "Registration failed";
+                                return;
+                            }
+                            
+                            // Adds the user into the database
+                            document.getElementById("registerResult").innerHTML = "User added, redirecting...";
 
-				// Retrives the first and last name of user if successful
-				firstName = jsonObject.firstName;
-                lastName = jsonObject.lastName;
+                            // Retrives the first and last name of user if successful
+                            firstName = jsonObject.firstName;
+                            lastName = jsonObject.lastName;
 
-                                // Calls saveCookie() function to store user in a browser cookie
-                                saveCookie();
+                            // Calls saveCookie() function to store user in a browser cookie
+                            saveCookie();
 
-                                // Sends user to next page
-                                window.location.href = "contacts.html";
+                            // Sends user to next page
+                            window.location.href = "contacts.html";
                         }
-                };
-                // What sends request with JSON data container username / password
-                xhr.send(jsonPayload);
-        }
+                    };
+                            // What sends request with JSON data container username / password
+                            xhr.send(jsonPayload);
+                }
 
-        // This catches js errors like with JSON parsing so if error found, it gives an err msg
-        catch(err)
-        {
-                document.getElementById("registerResult").innerHTML = err.message;
+                // This catches js errors like with JSON parsing so if error found, it gives an err msg
+                catch(err)
+                {
+                        document.getElementById("registerResult").innerHTML = err.message;
+                }
         }
-
-}
 
 //Saves the information of a user for easy access later
 function saveCookie()
@@ -198,17 +208,11 @@ function saveCookie()
         let minutes = 20;
         let date = new Date();
         date.setTime(date.getTime()+(minutes*60*1000));
-        document.cookie = "firstName=" + firstName + ",lastName=" + lastName + ",userId=" + userId + ";expires=" + date.toGMTString();
+        document.cookie = "firstName=" + firstName + ",lastName=" + lastName + ",userID=" + userID + ";expires=" + date.toGMTString();
 }
-  // Load user and contacts on page load
-        // window.onload = function() {
-        //     readCookie();
-        //     loadContacts();
-        // };
 
         // Reads cookie to get user session
         function readCookie() {
-            userId = -1;
             let data = document.cookie;
             let splits = data.split(",");
             for(var i = 0; i < splits.length; i++) {
@@ -220,19 +224,22 @@ function saveCookie()
                 else if(tokens[0] == "lastName") {
                     lastName = tokens[1];
                 }
-                else if(tokens[0] == "userId") {
-                    userId = parseInt(tokens[1].trim());
+                else if(tokens[0] == "userID") {
+                    userID = parseInt(tokens[1].trim());
                 }
             }
 
-            if(userId < 0) {
+            if(userID < 1) {
                 window.location.href = "index.html";
             }
         }
 
         // Adds a Contact to a user's list of contacts
         function addContact(event) {
-            event.preventDefault();
+            if (event)
+            {
+                event.preventDefault();
+            }
 
             let addFirstN = document.getElementById("addFirstName").value;
             let addLastN = document.getElementById("addLastName").value;
@@ -242,7 +249,7 @@ function saveCookie()
             document.getElementById("contactAddResult").innerHTML = "";
 
             const contactData = {
-                userId: userId,
+                userId: userID,
                 firstName: addFirstN,
                 lastName: addLastN,
                 email: addEmail,
@@ -294,9 +301,10 @@ function saveCookie()
 
         // Grabs the contacts of a user, displaying them in the grid
         function loadContacts() {
+            
             let tmp = {
                 search: "",
-                userId: userId
+                userId: userID
             };
 
             let jsonPayload = JSON.stringify(tmp);
@@ -412,7 +420,7 @@ function saveCookie()
                 phone: phone_val,
                 email: email_val,
                 contactId: conid_val,
-                userId: userId
+                userId: userID
             };
 
             let jsonPayload = JSON.stringify(tmp);
@@ -453,7 +461,7 @@ function saveCookie()
             if (check === true) {
                 let tmp = {
                     contactId: conId,
-                    userId: userId
+                    userId: userID
                 };
 
                 let jsonPayload = JSON.stringify(tmp);
@@ -514,7 +522,7 @@ function saveCookie()
 
 // Logout function (if needed)
 function doLogout() {
-        userId = 0;
+        userID = 0;
         firstName = "";
         lastName = "";
         document.cookie = "firstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";

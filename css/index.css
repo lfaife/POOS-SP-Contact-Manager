@@ -27,22 +27,22 @@
     text-align: center;
 }
 
-.footer2 p {
+/* .footer2 p {
     font-size: 16px;
     color: #FFFFFF;
     margin: 0;
-}
+} */
 
 .crew {
     display: inline;
     opacity: 0.8;
 }
-
+/* 
 .join {
     color: #6B9EFF;
     text-decoration: underline;
     margin-left: 10px;
-}
+} */
 
 .join:hover {
     color: #8FB4FF;

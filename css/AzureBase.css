@@ -1,343 +1,379 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+ /* Darker Azure Deep Ocean Theme */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-:root {
-    --bg-dark: oklch(0.1 0.055 250);
-    --bg: oklch(0.15 0.055 250);
-    --bg-light: oklch(0.2 0.055 250);
-    --border: oklch(0.4 0.11 250);
-    --border-muted: oklch(0.3 0.11 250);
-    --danger: oklch(0.7 0.11 30);
-}
+        :root {
+            --bg: #020a12;
+            --bg-light: #0a1929;
+            --border: #1e4a6f;
+            --border-muted: #0f2d47;
+            --highlight: #004578;
+            --accent: #40d4ff;
+            --text: #cfe8f3;
+        }
 
-body {
-    background: linear-gradient(135deg, var(--bg-dark), var(--bg-light));
-    min-height: 100vh;
-    background-attachment: fixed;
-    font-family: 'Ubuntu', sans-serif;
-    color: #FFFFFF;
-}
+        body {
+            background: linear-gradient(to bottom, #003d5c, var(--bg));
+            min-height: 100vh;
+            background-attachment: fixed;
+            font-family: 'Ubuntu', sans-serif;
+            color: var(--text);
+        }
 
-.azure-container {
-    margin: 150px auto 0 auto;
-    width: 550px;
-    max-width: 95vw;
-    background-image: linear-gradient(180deg, var(--bg-light), var(--bg));
-    border: 1px solid var(--border);
-    box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.06),
-        inset 0 12px 24px rgba(0,0,0,0.20),
-        0 8px 24px rgba(0,0,0,0.35);
-    border-radius: 25px;
-    padding: 16px;
-}
+        /* Modal Styling */
+        .modal-content {
+            background: linear-gradient(180deg, var(--bg-light), var(--bg));
+            border: 1px solid var(--border);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+            color: var(--text);
+        }
 
-.azure-pill-group {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 12px;
-    margin-bottom: 16px;
-}
+        .modal-header {
+            border-bottom: 1px solid var(--border-muted);
+        }
 
-.azure-pill {
-    height: 50px;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid var(--border);
-    border-radius: 9999px;
-    font-family: 'Ubuntu', sans-serif;
-    color: #FFFFFF;
-    font-size: 16px;
-    transition: all 0.2s;
-}
+        .modal-title {
+            color: var(--accent);
+            font-weight: 600;
+        }
 
-.azure-pill:focus {
-    background: rgba(255,255,255,0.08);
-    border-color: var(--border);
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(255,255,255,0.1);
-}
+        .modal-subtitle {
+            display: block;
+            font-size: 14px;
+            color: var(--text);
+            opacity: 0.7;
+            margin-top: 5px;
+        }
 
-.azure-pill.search-input {
-    padding-left: 20px;
-    padding-right: 20px;
-    min-width: 0;
-}
+        .btn-close {
+            filter: invert(1) brightness(2);
+        }
 
-.azure-pill.add-btn {
-    padding: 0 24px;
-    white-space: nowrap;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 500;
-}
+        .modal-footer {
+            border-top: 1px solid var(--border-muted);
+        }
 
-.azure-pill.add-btn:hover {
-    background: rgba(255,255,255,0.1);
-}
+        .form-label {
+            color: var(--text);
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
 
-.azure-indexCard {
-    width: 100%;
-    min-height: 400px;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 20px;
-}
+        .form-control {
+            background-color: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            padding: 10px 15px;
+        }
 
-/* Grid styling for contacts display (matches your loadContacts function) */
-.azure-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
+        .form-control:focus {
+            background-color: var(--bg);
+            border-color: var(--accent);
+            color: var(--text);
+            box-shadow: 0 0 0 3px rgba(64, 212, 255, 0.3);
+        }
 
-.grid-header {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1.5fr 1.2fr 0.8fr;
-    gap: 12px;
-    padding: 12px;
-    background: rgba(255,255,255,0.04);
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 14px;
-}
+        .form-control::placeholder {
+            color: rgba(207, 232, 243, 0.4);
+        }
 
-.grid-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1.5fr 1.2fr 0.8fr;
-    gap: 12px;
-    padding: 16px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid var(--border-muted);
-    border-radius: 12px;
-    transition: all 0.2s;
-    align-items: center;
-}
+        .btn-primary {
+            background: linear-gradient(135deg, #004578, #002d4d);
+            border: 1px solid var(--border);
+            color: white;
+            transition: all 0.3s ease;
+        }
 
-.grid-row:hover {
-    background: rgba(255,255,255,0.08);
-    border-color: var(--border);
-}
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #005a9e, #003d5c);
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(64, 212, 255, 0.4);
+        }
 
-.grid-cell {
-    font-size: 14px;
-}
+        .btn-secondary {
+            background-color: var(--bg-light);
+            border: 1px solid var(--border-muted);
+            color: var(--text);
+        }
 
-.grid-cell span {
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+        .btn-secondary:hover {
+            background-color: var(--bg);
+            border-color: var(--border);
+            color: var(--text);
+        }
 
-.grid-cell input[type="text"] {
-    width: 100%;
-    padding: 6px 12px;
-    border-radius: 8px;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid var(--border);
-    color: #FFFFFF;
-    font-size: 14px;
-}
+        /* Main Container */
+        .azure-container {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 20px;
+        }
 
-.grid-head {
-    opacity: 0.7;
-    text-transform: uppercase;
-    font-size: 12px;
-    letter-spacing: 0.5px;
-}
+        /* Pill Group (Search + Add Button) */
+        .azure-pill-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
 
-.grid-actions {
-    display: flex;
-    gap: 8px;
-    justify-content: flex-end;
-}
+        .azure-pill {
+            border-radius: 50px;
+            border: 1px solid var(--border);
+            padding: 12px 25px;
+            font-family: 'Ubuntu', sans-serif;
+            font-size: 16px;
+            background-color: var(--bg);
+            color: var(--text);
+        }
 
-.w3-button {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-}
+        .search-input {
+            flex: 1;
+            min-width: 250px;
+        }
 
-.w3-circle {
-    border-radius: 50%;
-}
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(64, 212, 255, 0.3);
+        }
 
-.w3-lime {
-    background-color: #cddc39;
-    color: #000;
-}
+        .add-btn {
+            background: linear-gradient(135deg, #004578, #002d4d);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
 
-.w3-lime:hover {
-    background-color: #d4e157;
-}
+        .add-btn:hover {
+            background: linear-gradient(135deg, #005a9e, #003d5c);
+            box-shadow: 0 4px 12px rgba(64, 212, 255, 0.4);
+            transform: translateY(-2px);
+        }
 
-.w3-amber {
-    background-color: #ffc107;
-    color: #000;
-}
+        /* Index Card */
+        .azure-indexCard {
+            background: linear-gradient(180deg, var(--bg-light), var(--bg));
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.06),
+                inset 0 12px 24px rgba(0,0,0,0.20),
+                0 8px 24px rgba(0,0,0,0.35);
+            min-height: 400px;
+        }
 
-.w3-amber:hover {
-    background-color: #ffca28;
-}
+        /* Empty State */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+            text-align: center;
+        }
 
-/* Modal Styling */
-.modal-content {
-    background-image: linear-gradient(180deg, var(--bg-light), var(--bg));
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    color: #FFFFFF;
-}
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.6;
+        }
 
-.modal-header {
-    border-bottom: 1px solid var(--border-muted);
-    padding: 20px;
-}
+        .empty-state p {
+            color: var(--text);
+            opacity: 0.7;
+            font-size: 18px;
+        }
 
-.modal-title {
-    font-weight: 600;
-    color: #FFFFFF;
-}
+        /* Grid Styles */
+        .azure-grid {
+            display: grid;
+            gap: 10px;
+            color: var(--text);
+            background: var(--border-muted);
+            border-radius: 12px;
+            overflow: hidden;
+        }
 
-.modal-subtitle {
-    font-size: 14px;
-    opacity: 0.7;
-    display: block;
-    margin-top: 4px;
-}
+        .grid-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 2fr 1.5fr 120px;
+            background: var(--highlight);
+            font-weight: 600;
+        }
 
-.modal-body {
-    padding: 20px;
-}
+        .grid-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 2fr 1.5fr 120px;
+            background: var(--bg-light);
+            margin: 15px 10px;
+            border: 4px solid var(--border);
+            border-radius: 1rem;
+            transition: all 0.2s ease;
+        }
 
-.modal-footer {
-    border-top: 1px solid var(--border-muted);
-    padding: 16px 20px;
-}
+        .grid-row:hover {
+            background: var(--bg);
+        }
 
-.form-label {
-    margin-bottom: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    display: block;
-}
+        .grid-cell {
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            /* word-break: break-word; */
+        }
 
-.form-control {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid var(--border);
-    border-radius: 50px;
-    color: #FFFFFF;
-    padding: 12px 20px;
-    margin-bottom: 16px;
-    font-family: 'Ubuntu', sans-serif;
-}
+        .grid-head {
+            color: white;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
 
-.form-control:focus {
-    background: rgba(255,255,255,0.08);
-    border-color: var(--border);
-    color: #FFFFFF;
-    box-shadow: 0 0 0 3px rgba(255,255,255,0.1);
-    outline: none;
-}
+        .grid-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
 
-.form-control::placeholder {
-    color: rgba(255,255,255,0.4);
-}
+        /* Action Buttons */
+        .w3-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
 
-.btn-primary {
-    background: rgba(255,255,255,0.1);
-    border: 1px solid var(--border);
-    border-radius: 50px;
-    padding: 12px 24px;
-    color: #FFFFFF;
-    font-weight: 500;
-}
+        /* .w3-lime {
+            background-color: #7cb342;
+            color: white;
+        }
 
-.btn-primary:hover {
-    background: rgba(255,255,255,0.15);
-    border-color: var(--border);
-    color: #FFFFFF;
-}
+        .w3-lime:hover {
+            background-color: #8bc34a;
+            transform: scale(1.1);
+        }
 
-.btn-secondary {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid var(--border-muted);
-    border-radius: 50px;
-    padding: 12px 24px;
-    color: #FFFFFF;
-}
+        .w3-amber {
+            background-color: #ff6b6b;
+            color: white;
+        }
 
-.btn-secondary:hover {
-    background: rgba(255,255,255,0.08);
-    color: #FFFFFF;
-}
+        .w3-amber:hover {
+            background-color: #ff5252;
+            transform: scale(1.1);
+        }
 
-.btn-close {
-    filter: invert(1);
-    opacity: 0.6;
-}
+        .w3-green {
+            background-color: #4caf50;
+            color: white;
+        }
 
-.btn-close:hover {
-    opacity: 1;
-}
+        .w3-green:hover {
+            background-color: #66bb6a;
+            transform: scale(1.1);
+        } */
 
-.empty-state {
-    text-align: center;
-    padding: 40px 20px;
-    opacity: 0.6;
-}
+        /* Editing State */
+        .grid-row.editing {
+            background: var(--bg);
+            box-shadow: inset 0 0 10px rgba(64, 212, 255, 0.2);
+        }
 
-.empty-state-icon {
-    font-size: 48px;
-    margin-bottom: 16px;
-}
+        .grid-cell input {
+            width: 100%;
+            padding: 8px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text);
+            font-size: 14px;
+        }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .grid-header {
-        display: none;
-    }
+        .grid-cell input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(64, 212, 255, 0.2);
+        }
 
-    .grid-row {
-        grid-template-columns: 1fr;
-        gap: 8px;
-    }
+        /* Result Messages */
+        .result-message {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
 
-    .grid-cell::before {
-        content: attr(data-label);
-        font-weight: 600;
-        margin-right: 8px;
-        opacity: 0.7;
-    }
+        .result-message.success {
+            background: rgba(76, 175, 80, 0.2);
+            color: #7cb342;
+            border: 1px solid #7cb342;
+        }
 
-    .grid-actions {
-        justify-content: flex-start;
-        padding-top: 8px;
-    }
-}
+        .result-message.error {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+            border: 1px solid #ff6b6b;
+        }
 
-@media (max-width: 576px) {
-    .azure-container {
-        margin-top: 50px;
-        padding: 12px;
-    }
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .grid-header,
+            .grid-row {
+                grid-template-columns: 1fr;
+            }
 
-    .azure-pill-group {
-        grid-template-columns: 1fr;
-    }
+            .grid-cell {
+                border-bottom: 1px solid var(--border-muted);
+            }
 
-    .azure-pill.add-btn {
-        justify-content: center;
-    }
-}
+            .grid-cell::before {
+                content: attr(data-label);
+                font-weight: 600;
+                margin-right: 10px;
+                color: var(--accent);
+            }
+
+            .grid-head {
+                display: none;
+            }
+
+            .grid-actions {
+                justify-content: flex-start;
+                padding-left: 15px;
+            }
+        }
+
+        /* Test Button (temporary) */
+        button[onclick="makeContact()"] {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(64, 212, 255, 0.4);
+        }
+
+        button[onclick="makeContact()"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(64, 212, 255, 0.6);
+        }
