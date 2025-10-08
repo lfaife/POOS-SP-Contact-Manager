@@ -6,7 +6,12 @@ const extension = 'php';
 let userId = 0;
 let firstName = "";
 let lastName = "";
+
+// Array to hold contact IDs for easy reference
 const cids = [];
+
+// Global variable to track which contact is being edited
+let currentEditingContactId = null;
 
 function doLogin(event)
 {
@@ -363,80 +368,103 @@ function saveCookie()
             }
         }
 
-        // Brings up inline editing for the selected contact
-        function editContact(id) {
-            var rowElement = document.getElementById("row" + id);
-            
-            // Check if already editing
-            if(rowElement.classList.contains('editing')) {
-                saveChangedContact(id);
-                return;
-            }
 
-            var consFirstName = document.getElementById("first_Name" + id);
-            var consLastName = document.getElementById("last_Name" + id);
-            var consEmail = document.getElementById("email" + id);
-            var consPhone = document.getElementById("phone" + id);
+// Opens the edit modal and populates it with the selected contact's data
+function editContact(id) {
+    // Store the contact ID being edited
+    currentEditingContactId = id;
+    
+    // Get the current values from the displayed contact
+    var firstName = document.getElementById("first_Name" + id).querySelector('span').innerText;
+    var lastName = document.getElementById("last_Name" + id).querySelector('span').innerText;
+    var email = document.getElementById("email" + id).querySelector('span').innerText;
+    var phone = document.getElementById("phone" + id).querySelector('span').innerText;
+    
+    // Populate the modal form fields
+    document.getElementById("editFirstName").value = firstName;
+    document.getElementById("editLastName").value = lastName;
+    document.getElementById("editEmail").value = email;
+    document.getElementById("editPhoneNumber").value = phone;
+    
+    // Clear any previous result messages
+    document.getElementById("contacteditResult").innerHTML = "";
+    
+    // Open the modal
+    var modalEl = document.getElementById('editContactModal');
+    var modal = new bootstrap.Modal(modalEl);
+    modal.show();
+}
 
-            var mod_fname = consFirstName.querySelector('span').innerText;
-            var mod_lname = consLastName.querySelector('span').innerText;
-            var mod_email = consEmail.querySelector('span').innerText;
-            var mod_phone = consPhone.querySelector('span').innerText;
+// Saves the changes made in the edit modal
+function saveChangedContact(event) {
+    event.preventDefault();
+    
+    // Get the values from the modal form
+    var fname_val = document.getElementById("editFirstName").value;
+    var lname_val = document.getElementById("editLastName").value;
+    var email_val = document.getElementById("editEmail").value;
+    var phone_val = document.getElementById("editPhoneNumber").value;
+    
+    // Get the contact ID from the global variable
+    var conid_val = cids[currentEditingContactId];
+    
+    // Clear previous messages
+    document.getElementById("contacteditResult").innerHTML = "";
+    
+    let tmp = {
+        firstName: fname_val,
+        lastName: lname_val,
+        phone: phone_val,
+        email: email_val,
+        contactId: conid_val,
+        userId: userId
+    };
 
-            consFirstName.innerHTML = "<input type='text' id='fname_text" + id + "' value='" + mod_fname + "'>";
-            consLastName.innerHTML = "<input type='text' id='lname_text" + id + "' value='" + mod_lname + "'>";
-            consEmail.innerHTML = "<input type='text' id='email_text" + id + "' value='" + mod_email + "'>";
-            consPhone.innerHTML = "<input type='text' id='phone_text" + id + "' value='" + mod_phone + "'>";
+    let jsonPayload = JSON.stringify(tmp);
+    let url = urlBase + '/UpdateContact.' + extension;
 
-            // Change button to save button
-            var editButton = document.getElementById("edit_button" + id);
-            editButton.className = "w3-button w3-circle w3-green";
-            editButton.innerHTML = "&#10004;";
-            editButton.setAttribute('aria-label', 'Save contact');
-
-            // Mark row as editing
-            rowElement.classList.add('editing');
-        }
-
-        // Saves the changes made in inline editing
-        function saveChangedContact(rownum) {
-            var fname_val = document.getElementById("fname_text" + rownum).value;
-            var lname_val = document.getElementById("lname_text" + rownum).value;
-            var email_val = document.getElementById("email_text" + rownum).value;
-            var phone_val = document.getElementById("phone_text" + rownum).value;
-            var conid_val = cids[rownum];
-
-            let tmp = {
-                firstName: fname_val,
-                lastName: lname_val,
-                phone: phone_val,
-                email: email_val,
-                contactId: conid_val,
-                userId: userId
-            };
-
-            let jsonPayload = JSON.stringify(tmp);
-            let url = urlBase + '/UpdateContact.' + extension;
-
-            let xhr = new XMLHttpRequest();
-            xhr.open("POST", url, true);
-            xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-            
-            try {
-                xhr.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    
+    try {
+        xhr.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let response = JSON.parse(xhr.responseText);
+                
+                if(response.error && response.error !== "") {
+                    document.getElementById("contacteditResult").innerHTML = response.error;
+                    document.getElementById("contacteditResult").className = "result-message error";
+                } else {
+                    document.getElementById("contacteditResult").innerHTML = "Contact updated successfully";
+                    document.getElementById("contacteditResult").className = "result-message success";
+                    
+                    // Close modal and reload contacts
+                    setTimeout(function() {
+                        var modalEl = document.getElementById('editContactModal');
+                        var modal = bootstrap.Modal.getInstance(modalEl);
+                        if(modal) {
+                            modal.hide();
+                        }
+                        document.getElementById("editContactForm").reset();
+                        document.getElementById("contacteditResult").innerHTML = "";
+                        
                         // Reload contacts to show updated data
                         loadContacts();
-                    }
-                };
-                xhr.send(jsonPayload);
+                        
+                        // Reset the editing ID
+                        currentEditingContactId = null;
+                    }, 1000);
+                }
             }
-            catch (err) {
-                document.getElementById("contactUpdateResult").innerHTML = err.message;
-                // Still reload to reset the view
-                loadContacts();
-            }
-        }
+        };
+        xhr.send(jsonPayload);
+    }
+    catch (err) {
+        document.getElementById("contacteditResult").innerHTML = err.message;
+        document.getElementById("contacteditResult").className = "result-message error";
+    }
+}
 
         // Deletes a Contact from the user's list of contacts
         function deleteContact(rowNum) {
