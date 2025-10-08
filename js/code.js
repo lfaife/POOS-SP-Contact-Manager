@@ -64,7 +64,7 @@ function doLogin(event)
                         // # 4 means request is complete and status of 200 means response was successful
                         if (this.readyState == 4 && this.status == 200)
                         {
-                                const data = json.parse( json.response )
+                                //const data = json.parse( json.response )
                                 // converts the JSON response from our given form data back into a JS object
                                 let jsonObject = JSON.parse( xhr.responseText );
 
@@ -176,7 +176,7 @@ function doRegister(event)
 
 				// Retrives the first and last name of user if successful
 				firstName = jsonObject.firstName;
-                lastName = jsonObject.lastName;
+                                lastName = jsonObject.lastName;
 
                                 // Calls saveCookie() function to store user in a browser cookie
                                 saveCookie();
@@ -211,122 +211,124 @@ function saveCookie()
         //     loadContacts();
         // };
 
-        // Reads cookie to get user session
-        function readCookie() {
-            userId = -1;
-            let data = document.cookie;
-            let splits = data.split(",");
-            for(var i = 0; i < splits.length; i++) {
+// Reads cookie to get user session
+function readCookie()
+{
+        userId = -1;
+        let data = document.cookie;
+        let splits = data.split(",");
+        for(var i = 0; i < splits.length; i++) {
                 let thisOne = splits[i].trim();
                 let tokens = thisOne.split("=");
-                if(tokens[0] == "firstName") {
-                    firstName = tokens[1];
+                if(tokens[0] == "firstName"){
+                        firstName = tokens[1];
                 }
-                else if(tokens[0] == "lastName") {
-                    lastName = tokens[1];
+                else if(tokens[0] == "lastName"){
+                        lastName = tokens[1];
                 }
-                else if(tokens[0] == "userId") {
-                    userId = parseInt(tokens[1].trim());
+                else if(tokens[0] == "userId"){
+                        userId = parseInt(tokens[1].trim());
                 }
-            }
-
-            if(userId < 0) {
-                window.location.href = "index.html";
-            }
         }
 
-        // Adds a Contact to a user's list of contacts
-        function addContact(event) {
-            event.preventDefault();
+        if(userId < 0){
+                window.location.href = "index.html";
+        }
+}
 
-            let addFirstN = document.getElementById("addFirstName").value;
-            let addLastN = document.getElementById("addLastName").value;
-            let addEmail = document.getElementById("addEmail").value;
-            let addPhoneN = document.getElementById("addPhoneNumber").value;
+// Adds a Contact to a user's list of contacts
+function addContact(event)
+{
+        event.preventDefault();
 
-            document.getElementById("contactAddResult").innerHTML = "";
+        let addFirstN = document.getElementById("addFirstName").value;
+        let addLastN = document.getElementById("addLastName").value;
+        let addEmail = document.getElementById("addEmail").value;
+        let addPhoneN = document.getElementById("addPhoneNumber").value;
 
-            const contactData = {
+        document.getElementById("contactAddResult").innerHTML = "";
+
+        const contactData = {
                 userId: userId,
                 firstName: addFirstN,
                 lastName: addLastN,
                 email: addEmail,
                 phone: addPhoneN
-            };
+        };
 
-            let jsonPayload = JSON.stringify(contactData);
-            let url = urlBase + '/AddContacts.' + extension;
+        let jsonPayload = JSON.stringify(contactData);
+        let url = urlBase + '/AddContacts.' + extension;
 
-            let xhr = new XMLHttpRequest();
-            xhr.open("POST", url, true);
-            xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-            
-            try {
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        
+        try {
                 xhr.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        let response = JSON.parse(xhr.responseText);
-                        
-                        if(response.error && response.error !== "") {
-                            document.getElementById("contactAddResult").innerHTML = response.error;
-                            document.getElementById("contactAddResult").className = "result-message error";
-                        } else {
-                            document.getElementById("contactAddResult").innerHTML = "Contact has been added";
-                            document.getElementById("contactAddResult").className = "result-message success";
-                            
-                            // Close modal and reset form
-                            setTimeout(function() {
-                                var modalEl = document.getElementById('addContactModal');
-                                var modal = bootstrap.Modal.getInstance(modalEl);
-                                if(modal) {
-                                    modal.hide();
-                                }
-                                document.getElementById("addContactForm").reset();
-                                document.getElementById("contactAddResult").innerHTML = "";
+                        if (this.readyState == 4 && this.status == 200) {
+                                let response = JSON.parse(xhr.responseText);
                                 
-                                // Reload contacts
-                                loadContacts();
-                            }, 1000);
+                                if(response.error && response.error !== "") {
+                                        document.getElementById("contactAddResult").innerHTML = response.error;
+                                        document.getElementById("contactAddResult").className = "result-message error";
+                                } else {
+                                        document.getElementById("contactAddResult").innerHTML = "Contact has been added";
+                                        document.getElementById("contactAddResult").className = "result-message success";
+                                        
+                                        // Close modal and reset form
+                                        setTimeout(function() {
+                                                var modalEl = document.getElementById('addContactModal');
+                                                var modal = bootstrap.Modal.getInstance(modalEl);
+                                                if(modal) {
+                                                        modal.hide();
+                                                }
+                                                document.getElementById("addContactForm").reset();
+                                                document.getElementById("contactAddResult").innerHTML = "";
+                                                
+                                                // Reload contacts
+                                                loadContacts();
+                                        }, 1000);
+                                }
                         }
-                    }
                 };
                 xhr.send(jsonPayload);
-            }
-            catch(err) {
+        }
+        catch(err) {
                 document.getElementById("contactAddResult").innerHTML = err.message;
                 document.getElementById("contactAddResult").className = "result-message error";
-            }
         }
+}
 
-        // Grabs the contacts of a user, displaying them in the grid
-        function loadContacts() {
-            let tmp = {
-                search: "",
+// Grabs the contacts of a user, displaying them in the grid
+function loadContacts() {
+        let tmp = {
+                //search: "",           Theoretically not needed based on how GetContacts.php is set up
                 userId: userId
-            };
+        };
 
-            let jsonPayload = JSON.stringify(tmp);
-            let url = urlBase + '/GetContacts.' + extension;
-            
-            let xhr = new XMLHttpRequest();
-            xhr.open("POST", url, true);
-            xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        let jsonPayload = JSON.stringify(tmp);
+        let url = urlBase + '/GetContacts.' + extension;
+        
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 
-            try {
-                xhr.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
+        try {
+        xhr.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
                         let jsonObject = JSON.parse(xhr.responseText);
                         
                         if (jsonObject.error) {
-                            console.log(jsonObject.error);
-                            document.getElementById("azure-index").innerHTML = 
-                                "<div class='empty-state'><div class='empty-state-icon'>❌</div><p>Error loading contacts</p></div>";
-                            return;
+                                console.log(jsonObject.error);
+                                document.getElementById("azure-index").innerHTML = 
+                                        "<div class='empty-state'><div class='empty-state-icon'>❌</div><p>Error loading contacts</p></div>";
+                                return;
                         }
 
                         if(!jsonObject.results || jsonObject.results.length === 0) {
-                            document.getElementById("azure-index").innerHTML = 
-                                "<div class='empty-state'><div class='empty-state-icon'>📇</div><p>No contacts yet. Add your first crew member!</p></div>";
-                            return;
+                                document.getElementById("azure-index").innerHTML = 
+                                        "<div class='empty-state'><div class='empty-state-icon'>📇</div><p>No contacts yet. Add your first crew member!</p></div>";
+                                return;
                         }
 
                         // Build the grid
@@ -343,30 +345,30 @@ function saveCookie()
 
                         // Contact rows
                         for (let i = 0; i < jsonObject.results.length; i++) {
-                            cids[i] = jsonObject.results[i].ID;
-                            
-                            text += "<div class='grid-row' id='row" + i + "' role='listitem'>";
-                            text += "<div class='grid-cell' id='first_Name" + i + "' data-label='First:'><span>" + jsonObject.results[i].FirstName + "</span></div>";
-                            text += "<div class='grid-cell' id='last_Name" + i + "' data-label='Last:'><span>" + jsonObject.results[i].LastName + "</span></div>";
-                            text += "<div class='grid-cell' id='email" + i + "' data-label='Email:'><span>" + jsonObject.results[i].Email + "</span></div>";
-                            text += "<div class='grid-cell' id='phone" + i + "' data-label='Phone:'><span>" + jsonObject.results[i].Phone + "</span></div>";
-                            text += "<div class='grid-cell grid-actions' data-label='Actions:'>";
-                            text += "<button type='button' id='edit_button" + i + "' class='w3-button w3-circle w3-lime' onclick='editContact(" + i + ")' aria-label='Edit contact'>&#9998;</button>";
-                            text += "<button type='button' onclick='deleteContact(" + i + ")' class='w3-button w3-circle w3-amber' aria-label='Delete contact'>&#128465;</button>";
-                            text += "</div>";
-                            text += "</div>";
+                                cids[i] = jsonObject.results[i].ID;
+                                
+                                text += "<div class='grid-row' id='row" + i + "' role='listitem'>";
+                                text += "<div class='grid-cell' id='first_Name" + i + "' data-label='First:'><span>" + jsonObject.results[i].FirstName + "</span></div>";
+                                text += "<div class='grid-cell' id='last_Name" + i + "' data-label='Last:'><span>" + jsonObject.results[i].LastName + "</span></div>";
+                                text += "<div class='grid-cell' id='email" + i + "' data-label='Email:'><span>" + jsonObject.results[i].Email + "</span></div>";
+                                text += "<div class='grid-cell' id='phone" + i + "' data-label='Phone:'><span>" + jsonObject.results[i].Phone + "</span></div>";
+                                text += "<div class='grid-cell grid-actions' data-label='Actions:'>";
+                                text += "<button type='button' id='edit_button" + i + "' class='w3-button w3-circle w3-lime' onclick='editContact(" + i + ")' aria-label='Edit contact'>&#9998;</button>";
+                                text += "<button type='button' onclick='deleteContact(" + i + ")' class='w3-button w3-circle w3-amber' aria-label='Delete contact'>&#128465;</button>";
+                                text += "</div>";
+                                text += "</div>";
                         }
                         
                         text += "</div>";
                         document.getElementById("azure-index").innerHTML = text;
-                    }
-                };
+                }
+        };
                 xhr.send(jsonPayload);
-            }
-            catch (err) {
-                document.getElementById("contactSearchResult").innerHTML = err.message;
-            }
         }
+        catch (err) {
+                document.getElementById("contactSearchResult").innerHTML = err.message;
+        }
+}
 
 
 // Opens the edit modal and populates it with the selected contact's data
@@ -466,90 +468,93 @@ function saveChangedContact(event) {
     }
 }
 
-        // Deletes a Contact from the user's list of contacts
-        function deleteContact(rowNum) {
-            var fname_val = document.getElementById("first_Name" + rowNum).innerText;
-            var lname_val = document.getElementById("last_Name" + rowNum).innerText;
-            
-            // Get text content only (strip any child elements)
-            var bFname = fname_val.trim();
-            var bLname = lname_val.trim();
-            var conId = cids[rowNum];
+// Deletes a Contact from the user's list of contacts
+function deleteContact(rowNum) {
+        var fname_val = document.getElementById("first_Name" + rowNum).innerText;
+        var lname_val = document.getElementById("last_Name" + rowNum).innerText;
+        
+        // Get text content only (strip any child elements)
+        var bFname = fname_val.trim();
+        var bLname = lname_val.trim();
 
-            let check = confirm(bFname + ' ' + bLname + ' will be removed from the crew. Is this ok?');
-            
-            if (check === true) {
+        var conId = cids[rowNum];
+
+        let check = confirm(bFname + ' ' + bLname + ' will be removed from the crew. Is this ok?');
+        
+        if (check === true) {
                 let tmp = {
-                    contactId: conId,
-                    userId: userId
+                        contactId: conId,
+                        userId: userId
                 };
 
                 let jsonPayload = JSON.stringify(tmp);
-                let url = urlBase + '/DeleteContacts.' + extension;
+                let url = urlBase + '/DeleteContact.' + extension;
 
                 let xhr = new XMLHttpRequest();
                 xhr.open("POST", url, true);
                 xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
                 
                 try {
-                    xhr.onreadystatechange = function() {
-                        if (this.readyState == 4 && this.status == 200) {
-                            // Reload contacts after deletion
-                            loadContacts();
-                        }
-                    };
-                    xhr.send(jsonPayload);
+                        xhr.onreadystatechange = function() {
+                                if (this.readyState == 4 && this.status == 200) {
+                                        // Reload contacts after deletion
+                                        loadContacts();
+                                }
+                        };
+                        xhr.send(jsonPayload);
                 }
                 catch (err) {
-                    document.getElementById("contactDeleteResult").innerHTML = err.message;
+                        document.getElementById("contactDeleteResult").innerHTML = err.message;
                 }
-            }
         }
+}
 
-        // Searches for contacts in the displayed list
-        function searchContacts() {
-            const searchValue = document.getElementById("searchText").value.toUpperCase();
-            const grid = document.querySelector(".azure-grid");
-            
-            if(!grid) return;
+// Searches for contacts in the displayed list
+function searchContacts() {
+        const searchValue = document.getElementById("searchText").value.toUpperCase();
+        const grid = document.querySelector(".azure-grid");
+        
+        if(!grid) return;
 
-            const rows = grid.querySelectorAll(".grid-row");
+        const rows = grid.querySelectorAll(".grid-row");
 
-            for (let i = 0; i < rows.length; i++) {
-                const row = rows[i];
-                const firstName = row.querySelector("[id^='first_Name']");
-                const lastName = row.querySelector("[id^='last_Name']");
-                const email = row.querySelector("[id^='email']");
-                const phone = row.querySelector("[id^='phone']");
+        for (let i = 0; i < rows.length; i++) {
+        const row = rows[i];
+        const firstName = row.querySelector("[id^='first_Name']");
+        const lastName = row.querySelector("[id^='last_Name']");
+        const email = row.querySelector("[id^='email']");
+        const phone = row.querySelector("[id^='phone']");
 
-                if (firstName && lastName && email && phone) {
-                    const fnText = firstName.textContent || firstName.innerText;
-                    const lnText = lastName.textContent || lastName.innerText;
-                    const emailText = email.textContent || email.innerText;
-                    const phoneText = phone.textContent || phone.innerText;
+        if (firstName && lastName && email && phone) {
+                const fnText = firstName.textContent || firstName.innerText;
+                const lnText = lastName.textContent || lastName.innerText;
+                const emailText = email.textContent || email.innerText;
+                const phoneText = phone.textContent || phone.innerText;
 
-                    if (fnText.toUpperCase().indexOf(searchValue) > -1 ||
-                        lnText.toUpperCase().indexOf(searchValue) > -1 ||
-                        emailText.toUpperCase().indexOf(searchValue) > -1 ||
-                        phoneText.indexOf(searchValue) > -1) {
-                        row.style.display = "";
-                    } else {
-                        row.style.display = "none";
-                    }
+                if (fnText.toUpperCase().indexOf(searchValue) > -1 ||
+                lnText.toUpperCase().indexOf(searchValue) > -1 ||
+                emailText.toUpperCase().indexOf(searchValue) > -1 ||
+                phoneText.indexOf(searchValue) > -1) {
+                row.style.display = "";
+                } else {
+                row.style.display = "none";
                 }
-            }
         }
+        }
+}
 
 // Logout function (if needed)
 function doLogout() {
         userId = 0;
         firstName = "";
         lastName = "";
+        currentEditingContactId = null;
         document.cookie = "firstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         window.location.href = "index.html";
 }
 
-// Purely created for testing purposes, creates a sample contact
+// Purely created for testing purposes
+// Creates sample contacts to check the functionality of Search, Edit, and Delete (excluding the database/server components)
 function makeContact() {
         // Build the grid
         let text = "<div class='azure-grid' role='list'>";
@@ -587,6 +592,19 @@ function makeContact() {
         text += "<div class='grid-cell grid-actions' data-label='Actions:'>";
         text += "<button type='button' id='edit_button" + 1 + "' class='w3-button w3-circle w3-lime' onclick='editContact(" + 1 + ")' aria-label='Edit contact'>&#9998;</button>";
         text += "<button type='button' onclick='deleteContact(" + 1 + ")' class='w3-button w3-circle w3-amber' aria-label='Delete contact'>&#128465;</button>";
+        text += "</div>";
+        text += "</div>";
+
+        cids[2] = 2;
+                
+        text += "<div class='grid-row' id='row" + 2 + "' role='listitem'>";
+        text += "<div class='grid-cell' id='first_Name" + 2 + "' data-label='First:'><span>" + "Vicky" + "</span></div>";
+        text += "<div class='grid-cell' id='last_Name" + 2 + "' data-label='Last:'><span>" + "Rome" + "</span></div>";
+        text += "<div class='grid-cell' id='email" + 2 + "' data-label='Email:'><span>" + "vicro@ucf.edu" + "</span></div>";
+        text += "<div class='grid-cell' id='phone" + 2 + "' data-label='Phone:'><span>" + "4079257023" + "</span></div>";
+        text += "<div class='grid-cell grid-actions' data-label='Actions:'>";
+        text += "<button type='button' id='edit_button" + 2 + "' class='w3-button w3-circle w3-lime' onclick='editContact(" + 2 + ")' aria-label='Edit contact'>&#9998;</button>";
+        text += "<button type='button' onclick='deleteContact(" + 2 + ")' class='w3-button w3-circle w3-amber' aria-label='Delete contact'>&#128465;</button>";
         text += "</div>";
         text += "</div>";
         
