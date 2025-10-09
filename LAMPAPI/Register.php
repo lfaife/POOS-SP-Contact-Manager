@@ -33,30 +33,31 @@
             $userId = $conn->insert_id;
             returnWithInfo($inData["firstName"], $inData["lastName"], $userId);
         }
+	}
 
-        // Decode Json from request body
-	    function getRequestInfo()
-        {
-            return json_decode(file_get_contents('php://input'), true);
-        }
-        // Send Json response
-        function sendResultInfoAsJson( $obj )
-        {
-            header('Content-type: application/json');
-            echo $obj;
-        }
-        // Return error response
-        function returnWithError( $err )
-        {
-            $retValue = '{"id":0,"firstName":"","lastName":"","error":"' . $err . '"}';
-            sendResultInfoAsJson( $retValue );
-        }
-        
-        // Return successful response with user info
-        function returnWithInfo( $firstName, $lastName, $id )
-        {
-            $retValue = '{"id":' . $id . ',"firstName":"' . $firstName . '","lastName":"' . $lastName . '","error":""}';
-            sendResultInfoAsJson( $retValue );
-        }
-    }
+	// Decode Json from request body
+	function getRequestInfo()
+	{
+		return json_decode(file_get_contents('php://input'), true);
+	}
+	// Send Json response
+	function sendResultInfoAsJson( $obj )
+	{
+		header('Content-type: application/json');
+		echo $obj;
+	}
+	// Return error response
+	function returnWithError( $err )
+	{
+		$retValue = '{"id":0,"firstName":"","lastName":"","error":"' . $err . '"}';
+		sendResultInfoAsJson( $retValue );
+	}
+	
+	// Return successful response with user info
+	function returnWithInfo( $firstName, $lastName, $id )
+	{
+		$retValue = '{"id":' . $id . ',"firstName":"' . $firstName . '","lastName":"' . $lastName . '","error":""}';
+		sendResultInfoAsJson( $retValue );
+	}
+    
 ?>
