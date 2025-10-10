@@ -23,16 +23,22 @@
             color: var(--text);
         }
 
+        .modal {
+            backdrop-filter: blur(5px);
+            /* background: linear-gradient(to bottom, var(--highlight), var(--bg)); */
+        }
+
         /* Modal Styling */
         .modal-content {
             background: linear-gradient(180deg, var(--bg-light), var(--bg));
             border: 1px solid var(--border);
+            border-radius: 20px;
             box-shadow: 0 8px 32px rgba(0,0,0,0.5);
             color: var(--text);
         }
 
         .modal-header {
-            border-bottom: 1px solid var(--border-muted);
+            border-bottom: 1px solid var(--border) !important;
         }
 
         .modal-title {
@@ -53,7 +59,7 @@
         }
 
         .modal-footer {
-            border-top: 1px solid var(--border-muted);
+            border-top: 1px solid var(--border) !important;
         }
 
         .form-label {
@@ -84,7 +90,7 @@
         .btn-primary {
             background: linear-gradient(135deg, #004578, #002d4d);
             border: 1px solid var(--border);
-            color: white;
+            color: var(--text);
             transition: all 0.3s ease;
         }
 
@@ -95,15 +101,14 @@
         }
 
         .btn-secondary {
-            background-color: var(--bg-light);
-            border: 1px solid var(--border-muted);
-            color: var(--text);
+            background-color: var(--border) !important; 
+            border: 1px solid var(--border-muted) !important;
+            color: var(--text) !important;
         }
 
         .btn-secondary:hover {
-            background-color: var(--bg);
-            border-color: var(--border);
-            color: var(--text);
+            background-color: var(--border-muted) !important;
+            border-color: var(--border) !important;
         }
 
         /* Main Container */
@@ -144,7 +149,7 @@
 
         .add-btn {
             background: linear-gradient(135deg, #004578, #002d4d);
-            color: white;
+            color: var(--text);
             cursor: pointer;
             transition: all 0.3s ease;
             white-space: nowrap;
@@ -230,7 +235,8 @@
         }
 
         .grid-head {
-            color: white;
+            color: var(--text);
+            font-weight: 700;
             font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -256,23 +262,23 @@
             transition: all 0.2s ease;
         }
 
-        /* .w3-lime {
-            background-color: #7cb342;
+        .w3-lime {
+            background-color: var(--border-muted);
             color: white;
         }
 
         .w3-lime:hover {
-            background-color: #8bc34a;
+            background-color: var(--border);
             transform: scale(1.1);
         }
 
         .w3-amber {
-            background-color: #ff6b6b;
+            background-color: var(--bg-light);
             color: white;
         }
 
         .w3-amber:hover {
-            background-color: #ff5252;
+            background-color: var(--highlight);
             transform: scale(1.1);
         }
 
@@ -284,7 +290,7 @@
         .w3-green:hover {
             background-color: #66bb6a;
             transform: scale(1.1);
-        } */
+        }
 
         /* Editing State */
         .grid-row.editing {
@@ -319,15 +325,15 @@
         }
 
         .result-message.success {
-            background: rgba(76, 175, 80, 0.2);
-            color: #7cb342;
-            border: 1px solid #7cb342;
+            background: var(--highlight);
+            color: var(--accent);
+            border: 1px solid var(--border);
         }
 
         .result-message.error {
-            background: rgba(255, 107, 107, 0.2);
-            color: #ff6b6b;
-            border: 1px solid #ff6b6b;
+            background: var(--highlight);
+            color: var(--accent);
+            border: 1px solid var(--border);
         }
 
         /* Responsive Design */
@@ -377,3 +383,10 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 16px rgba(64, 212, 255, 0.6);
         }
+
+    .submarine-img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain; /* Maintains aspect ratio */
+    
+}

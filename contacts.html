@@ -4,25 +4,19 @@
     <title>Contact Manager</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="Contact Manager" content="AzureBase contact manager system for COP 4331">
+    <meta name="description" content="AzureBase contact manager system for COP 4331">
     <link href="css/styles.css" rel="stylesheet">
     <link href="css/AzureBase.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <script type="text/javascript" src="js/code.js"></script>
-	<!--<script type="text/javascript">                              //Uncomment this later once things are working: it will display the contacts on page load
-		document.addEventListener('DOMContentLoaded', function () {
-			readCookie();
-			loadContacts();
-		}, false);
-	</script>-->
 </head>
 
 <body>
 <script>
     window.onload = function() {
     readCookie();       // Check if logged in
-    loadContacts();     // Load their contacts
+    searchContacts();     // Load their contacts
 };
 </script>
     <main>
@@ -35,7 +29,6 @@
                         <h5 class="modal-title" id="addContactModalLabel">Add to the AzureBase Index</h5>
                         <span class="modal-subtitle">Add a fellow Crew's Contact</span>
                     </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <!-- Form for Add -->
@@ -51,25 +44,26 @@
                         </div>
                         <div class="mb-3">
                             <label for="addEmail" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="addEmail" name="email" required>
+                            <input type="email" class="form-control" id="addEmail" name="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" 
+                            title="Enter a valid email address.">
                         </div>
                         <div class="mb-3">
                             <label for="addPhoneNumber" class="form-label">Phone Number</label>
-                            <input type="tel" class="form-control" id="addPhoneNumber" name="phoneNumber" required>
+                            <input type="tel" class="form-control" id="addPhoneNumber" name="phoneNumber" required  required pattern="\d{10}" maxlength="10" title="Enter a 10-digit phone number">
                         </div>
+                        
                         <span id="contactAddResult" class="result-message"></span>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Add Crew Member</button>
+                        <button type="submit" class="btn btn-primary">Add Crew Contact</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>    
 
-<<<<<<< HEAD
-=======
     <!-- Edit Contact Modal -->
     <div class="modal fade" id="editContactModal" aria-labelledby="editContactModalLabel">
         <div class="modal-dialog modal-dialog-centered">
@@ -79,8 +73,8 @@
                         <h5 class="modal-title" id="editContactModalLabel">Refine the AzureBase Record</h5>
                         <span class="modal-subtitle">Edit your crew member Contacts below</span>
                     </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+
                 <form id="editContactForm" onsubmit="saveChangedContact(event)">
                     <div class="modal-body">
                         <div class="mb-3">
@@ -93,11 +87,12 @@
                         </div>
                         <div class="mb-3">
                             <label for="editEmail" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="editEmail" name="email" required>
+                            <input type="email" class="form-control" id="editEmail" name="email" 
+                            required  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Enter a valid email address.">
                         </div>
                         <div class="mb-3">
                             <label for="editPhoneNumber" class="form-label">Phone Number</label>
-                            <input type="tel" class="form-control" id="editPhoneNumber" name="phoneNumber" required>
+                            <input type="tel" class="form-control" id="editPhoneNumber" name="phoneNumber" required pattern="\d{10}" maxlength="10" title="Enter a 10-digit phone number">
                         </div>
                         <span id="contacteditResult" class="result-message"></span>
                     </div>
@@ -109,28 +104,27 @@
             </div>
         </div>
     </div>
->>>>>>> 0b4f8535e9a2223de35e77d0c8422bb6074745d5
 
     <!-- Main Container -->
     <div class="azure-container">
         <!-- Search and Add Button -->
         <div class="azure-pill-group">
             <input type="text" class="azure-pill search-input" id="searchText" placeholder="Search contacts..." oninput="searchContacts()">
-            <button class="azure-pill add-btn" data-bs-toggle="modal" data-bs-target="#addContactModal">+ Add Contact</button>
+            <button type="button "class="azure-pill add-btn" data-bs-toggle="modal" data-bs-target="#addContactModal">+ Add Contact</button>
+            <button type="button "class="azure-pill add-btn" onclick="doLogout()">Logout</button>
         </div>
 
         <!-- Contacts Display Area -->
         <div class="azure-indexCard">
             <div id="azure-index">
+
                 <div class="empty-state">
-                    <div class="empty-state-icon">📇</div>
+                    <div class="empty-state-icon"><img src='../submarine.png' alt='Submarine icon'></div>
                     <p>Loading contacts...</p>
                 </div>
             </div>
         </div>
     </div>
-
-    <button onclick="makeContact()">Generate Sample People</button>
 
     <!-- Hidden result spans for other operations -->
     <div style="display: none;">
