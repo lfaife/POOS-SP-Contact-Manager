@@ -15,27 +15,37 @@ Modal-based UI: Add and edit contacts through clean Bootstrap 5 modal dialogs wi
 
 Responsive Design:  Mobile-friendly layout built with Bootstrap 5 and external css
 
-
+------------------
 
 Tech Stack
 
 Frontend: HTML5, CSS3, Vanilla JavaScript
+
 UI Framework: Bootstrap 5
+
 Backend: PHP (REST API via LAMPAPI)
+
 Database: MySQL
+
 Infrastructure: LAMP stack, hosted on DigitalOcean
 
+-------------------
 
 API Endpoints
 
 All endpoints live under /LAMPAPI/ and accept JSON payloads.
 
+------------------
+
 Getting Started
 
 Prerequisites
+
 Apache, MySQL, PHP (LAMP stack) — local or hosted
+
 A web server with PHP 7.4+
 
+------------------
 Setup
 
 Clone the repository:
