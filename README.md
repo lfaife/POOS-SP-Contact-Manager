@@ -6,9 +6,13 @@ AzureBase is a multi-user contact manager with secure authentication, full CRUD 
 Features
 
 Authentication: Secure user registration and login with session-based state persistence; contacts remain scoped per user across sessions
+
 Full CRUD: Create, read, update, and delete contacts via a RESTful PHP API layer (GET, POST, PUT, PATCH, DELETE)
+
 Live Search:  Case-insensitive, real-time search bar filters contacts as you type
+
 Modal-based UI: Add and edit contacts through clean Bootstrap 5 modal dialogs with client-side form validation (email format, 10-digit phone enforcement)
+
 Responsive Design:  Mobile-friendly layout built with Bootstrap 5 and external css
 
 
